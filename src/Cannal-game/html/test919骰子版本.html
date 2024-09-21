@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>大运河</title>
+    <!-- 引入 Roboto 字体，但Google Chorome无法正常显示 -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        /* 设置网页背景为地图 */
+        body {
+            background-image: url('../image/mapsBackground.jpg');
+            background-repeat: no-repeat;
+            background-size: cover; /* 始终覆盖整个视口 */
+            background-position: center; /* 置于页面中心 */
+        }
+
+        /* SVG 铺满 */
+        svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%; /* SVG 宽度 */
+            height: 100%; /* SVG 高度 */
+        }
+
+        /* SVG 容器 */
+        #river-map {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        /* 骰子图片 */
+        #dice {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            width: 150px;
+            height: 150px;
+            cursor: pointer;
+        }
+
+        #message {
+            display: none;
+            position: fixed;
+            bottom: 180px;
+            left: 20px;
+            background-color: orange;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 18px;
+            z-index: 100;
+        }
+
+        /* 模态框样式，初始状态下隐藏 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 300px;
+            text-align: center;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- SVG 图像 -->
+<svg id="river-map" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <path id="riverPath" d="M94.5,572.5c-5,1,40-7,40-7L155,540l37.5-27.5l32-12l6-45l139-33l45-13H493l90.5-15l85,10l22-3l16-16H774
+            l57.5-51l62-58l80-35l40-12h77.5l76.5-20l55,45l34,9l8,22l68,17l35-2l-11-23l27-12V257l45-24.5l-13-34l-34-24l-1-18l31-48l32-27"
+          fill="none" stroke="none" stroke-width="2"/>
+    <image id="boat" href="../image/浮动商船.gif" x="94.5" y="572.5" width="256" height="128"></image>
+</svg>
+
+<!-- 骰子随机数显示 -->
+<div id="message"></div>
+<img id="dice" src="../image/0.gif" alt="静止骰子">
+
+<!-- 模态框 A市 -->
+<div id="modalA" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h1>欢迎来到宿迁</h1>
+        <p>宿迁自古是交通要冲，京杭大运河贯穿其中，促进了当地农业和商业的繁荣。这里曾是漕运枢纽，也是清代船帮的重要集散地。</p>
+    </div>
+</div>
+
+<!-- 模态框 B市 -->
+<div id="modalB" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h1>欢迎来到淮安</h1>
+        <p>淮安是大运河的重要节点，明清时期是漕运总督府所在地，漕运管理中心。水运发达，使淮安成为南北经济、文化交融的重要城市。</p>
+    </div>
+</div>
+
+<!-- 模态框 C市 -->
+<div id="modalC" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h1>欢迎来到扬州</h1>
+        <p>扬州自隋唐以来就是大运河畔的繁华商埠，因盐业兴盛而闻名。大运河的贯通让扬州成为南北交通枢纽，也是文化交流的中心。</p>
+    </div>
+</div>
+
+<!-- 模态框 D市 -->
+<div id="modalD" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h1>欢迎来到镇江</h1>
+        <p>镇江位于长江与京杭大运河交汇处，自古以来是重要的水运枢纽。运河带来了丰富的商贸往来，也使其成为兵家必争之地。</p>
+    </div>
+</div>
+
+<!-- 模态框 E市 -->
+<div id="modalE" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h1>欢迎来到常州</h1>
+        <p>
+            常州因大运河贯穿而成为商贸重镇，尤其是南北货物的集散地。
+            运河使这里的丝绸业和粮食贸易蓬勃发展，城市文化也因此兴盛。
+        </p>
+    </div>
+</div>
+
+<!-- 模态框 F市 -->
+<div id="modalF" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h1>欢迎来到无锡</h1>
+        <p>
+            无锡因地处运河沿线，成为江南地区的重要商贸城市。
+            大运河不仅促进了粮食、丝绸等商品的流通，还推动了城市经济和文化的繁荣。
+        </p>
+    </div>
+</div>
+
+<!-- 模态框 G市 -->
+<div id="modalG" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h1>欢迎来到苏州</h1>
+        <p>
+            苏州因运河水运而闻名，自古被誉为“上有天堂，下有苏杭”。
+            大运河促进了苏州的经济繁荣，成为丝绸和茶叶的集散地。
+        </p>
+    </div>
+</div>
+
+<!-- 模态框 H市 -->
+<div id="modalH" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h1>欢迎来到嘉兴</h1>
+        <p>
+            嘉兴因大运河的贯通成为重要的水运枢纽，历史上是江南粮食的主要运输地之一。
+            运河带动了当地经济发展，尤其是纺织业和农业。
+        </p>
+    </div>
+</div>
+
+<!-- 模态框 I市 -->
+<div id="modalI" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h1>欢迎来到杭州</h1>
+        <p>
+            杭州是大运河的南端终点，历代因水运而繁荣，尤其在宋代成为经济和文化中心。
+            运河为杭州的丝绸、茶叶等商品提供了重要运输渠道。
+        </p>
+    </div>
+</div>
+
+<!-- 模态框 J市 -->
+<div id="modalJ" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h1>欢迎来到绍兴</h1>
+        <p>
+            绍兴是大运河上的历史名城，因水而兴。
+            运河促进了当地酒业、纺织业的发展，绍兴黄酒因此远销各地，带动了城市的商业繁荣。
+        </p>
+    </div>
+</div>
+
+<!-- 模态框 K市 -->
+<div id="modalK" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h1>欢迎来到宁波</h1>
+        <p>
+            宁波作为中国古代海上丝绸之路的起点之一，也与京杭大运河有着密切联系。
+            虽然宁波不直接位于大运河沿线，但通过运河与海上航运的联通，宁波成为
+            重要的港口和贸易枢纽，促进了南北经济文化的交流。
+        </p>
+    </div>
+</div>
+
+
+<script>
+// 获取路径和船只元素
+const path = document.querySelector("path");
+const boat = document.querySelector("image");
+const length = path.getTotalLength(); // 获取路径的总长度
+
+// 定义12个节点位置的数组，添加节点0，并将其设置为无模态框显示
+const nodes = [0, 10, 200, 600, 700, 850, 950, 1030, 1200, 1450, 1550, 1750]; // 节点位置
+let currentNodeIndex = 0; // 当前的节点索引
+let isMoving = false;  // 用于防止重复点击
+let modals = [
+    null, // 节点0无模态框
+    document.getElementById("modalA"),
+    document.getElementById("modalB"),
+    document.getElementById("modalC"),
+    document.getElementById("modalD"),
+    document.getElementById("modalE"),
+    document.getElementById("modalF"),
+    document.getElementById("modalG"),
+    document.getElementById("modalH"),
+    document.getElementById("modalI"),
+    document.getElementById("modalJ"),
+    document.getElementById("modalK")
+];
+
+// 处理模态框关闭按钮的点击事件
+const closeModalButtons = document.querySelectorAll(".close");
+
+closeModalButtons.forEach(button => {
+    button.addEventListener("click", function() {
+        this.closest('.modal').style.display = 'none'; // 点击关闭按钮隐藏模态框
+    });
+});
+
+// 处理点击模态框外部区域关闭模态框
+window.addEventListener("click", function(event) {
+    modals.forEach(modal => {
+        if (modal && event.target === modal) {
+            modal.style.display = "none"; // 点击模态框外部隐藏模态框
+        }
+    });
+});
+
+// 骰子
+const dice = document.getElementById('dice');
+const message = document.getElementById('message');
+
+dice.addEventListener('click', function() {
+    if (isMoving) return; // 防止重复点击
+    
+    // 产生1-6的随机数
+    const randomNumber = Math.floor(Math.random() * 6) + 1;
+
+    // 显示随机数的弹出提示框
+    message.textContent = `点数为 ${randomNumber}`;
+    message.style.display = 'block';
+
+    // 显示对应的骰子GIF
+    dice.src = `../image/${randomNumber}.gif`;
+
+    // 1秒后隐藏提示框
+    setTimeout(function() {
+        message.style.display = 'none';
+        // 移动船只
+        moveToNextNode(randomNumber);
+    }, 1900);
+
+
+});
+
+function moveToNextNode(diceValue) {
+    if (currentNodeIndex >= nodes.length || isMoving) return; // 防止越界或重复移动
+
+    const targetNodeIndex = Math.min(currentNodeIndex + diceValue, nodes.length - 1); // 目标节点
+    const startNode = nodes[currentNodeIndex];
+    const endNode = nodes[targetNodeIndex];
+    let startTime = null;
+
+    isMoving = true;
+
+    function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        const progress = (timestamp - startTime) / 5000;
+        //商船的移动速度，自行调整，单位毫秒，e.g5000=5s
+
+        if (progress < 1) {
+            const pointAtLength = startNode + (endNode - startNode) * progress;
+            const point = path.getPointAtLength(pointAtLength);
+
+            const boatWidth = 256;
+            const boatHeight = 256;
+            const offsetX = boatWidth / 2;
+            const offsetY = boatHeight / 2;
+            const extraOffsetY = -20;
+
+            boat.setAttribute('x', (point.x - offsetX).toString());
+            boat.setAttribute('y', (point.y - offsetY - extraOffsetY).toString());
+
+            requestAnimationFrame(step);
+        } else {
+            currentNodeIndex = targetNodeIndex;
+            if (modals[currentNodeIndex]) {
+                modals[currentNodeIndex].style.display = "block"; // 显示对应的模态框
+            }
+            isMoving = false;
+        }
+    }
+    //商船额外偏移量，默认跟随SVG曲线为跟随图片左上角0，0定位，此处微调为船底对其河流曲线
+
+    requestAnimationFrame(step);
+}
+
+// 页面加载时，确保所有模态框都是隐藏的，并且船停在节点0
+window.onload = function() {
+    modals.forEach(function(modal) {
+        if (modal) {
+            modal.style.display = 'none'; // 确保所有模态框初始时是隐藏的
+        }
+    });
+    
+    // 将商船的初始位置设置为节点0
+    const startNode = nodes[0]; // 节点0索引
+    const point = path.getPointAtLength(startNode); // 获取节点0坐标
+
+    const boatWidth = 256;
+    const boatHeight = 256;
+    const offsetX = boatWidth / 2;
+    const offsetY = boatHeight / 2;
+    const extraOffsetY = -20;
+
+    boat.setAttribute('x', (point.x - offsetX).toString());
+    boat.setAttribute('y', (point.y - offsetY - extraOffsetY).toString());
+};
+
+</script>
+
+</body>
+</html>
