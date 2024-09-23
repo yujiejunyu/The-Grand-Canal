@@ -16,7 +16,7 @@
 
         /* 设置网页背景为地图 */
         body {
-            background-image: url('../image/mapsBackground.jpg');
+            background-image: url("/src/public/image/mapsBackground.jpg");
             background-repeat: no-repeat;
             background-size: cover; /* 始终覆盖整个视口 */
             background-position: center; /* 置于页面中心 */
@@ -47,12 +47,34 @@
             height: 150px;
             cursor: pointer;
         }
+        
+        #yu_dice2{
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            width: 150px;
+            height:150px;
+            cursor: pointer;
+        }
 
         #message {
             display: none;
             position: fixed;
             bottom: 180px;
             left: 20px;
+            background-color: orange;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 18px;
+            z-index: 100;
+        }
+
+        #yu_message2{
+            display: none;
+            position: fixed;
+            bottom: 180px;
+            right: 20px;
             background-color: orange;
             color: white;
             padding: 10px;
@@ -95,7 +117,7 @@
             text-decoration: none;
             cursor: pointer;
         }
-
+        
     </style>
 </head>
 <body>
@@ -105,12 +127,18 @@
     <path id="riverPath" d="M94.5,572.5c-5,1,40-7,40-7L155,540l37.5-27.5l32-12l6-45l139-33l45-13H493l90.5-15l85,10l22-3l16-16H774
             l57.5-51l62-58l80-35l40-12h77.5l76.5-20l55,45l34,9l8,22l68,17l35-2l-11-23l27-12V257l45-24.5l-13-34l-34-24l-1-18l31-48l32-27"
           fill="none" stroke="none" stroke-width="2"/>
-    <image id="boat" href="../image/浮动商船.gif" x="94.5" y="572.5" width="256" height="128"></image>
+    <image id="boat" href="/src/public/image/浮动商船.gif" x="94.5" y="572.5" width="256" height="128"></image>
+    <image id="yu_boat2" href="/src/public/image/浮动商船.gif" x="94.5" y="572.5" width="256" height="128"
+        style="display:none;"></image>
 </svg>
 
 <!-- 骰子随机数显示 -->
 <div id="message"></div>
-<img id="dice" src="../image/0.gif" alt="静止骰子">
+<img id="dice" src="/src/public/image/0.gif" alt="静止骰子">
+
+<div id="yu_message2"></div>
+<img id="yu_dice2" src="/src/public/image/0.gif" alt="静止骰子">
+
 
 <!-- 模态框 A市 -->
 <div id="modalA" class="modal">
@@ -238,12 +266,15 @@
 // 获取路径和船只元素
 const path = document.querySelector("path");
 const boat = document.querySelector("image");
+const yu_boat2 = document.querySelector("image#yu_boat2");
 const length = path.getTotalLength(); // 获取路径的总长度
 
 // 定义12个节点位置的数组，添加节点0，并将其设置为无模态框显示
 const nodes = [0, 10, 200, 600, 700, 850, 950, 1030, 1200, 1450, 1550, 1750]; // 节点位置
-let currentNodeIndex = 0; // 当前的节点索引
-let isMoving = false;  // 用于防止重复点击
+let currentNodeIndex1 = 0; // 当前的节点索引
+let isMoving1 = false;  // 用于防止重复点击
+let yu_currentNodeIndex2 = 0;
+let yu_isMoving2 = false;
 let modals = [
     null, // 节点0无模态框
     document.getElementById("modalA"),
@@ -281,43 +312,88 @@ window.addEventListener("click", function(event) {
 const dice = document.getElementById('dice');
 const message = document.getElementById('message');
 
-dice.addEventListener('click', function() {
-    if (isMoving) return; // 防止重复点击
-    
+const yu_dice2 = document.getElementById('yu_dice2')
+const yu_message2 = document.getElementById('yu_message2')
+
+const yu_endNodeIndex = nodes.length - 1; // 最后一个节点的索引
+
+let yu_isDiceEnabled = true;
+let yu_currentPlayer = 1; // 当前玩家，1表示玩家一，2表示玩家二
+
+
+// 绑定玩家一骰子的点击事件
+dice.addEventListener('click', function () {
+    if (!yu_isDiceEnabled || isMoving1 || yu_currentPlayer !== 1) return; // 如果已经在移动或已到达终点，直接返回
+
     // 产生1-6的随机数
     const randomNumber = Math.floor(Math.random() * 6) + 1;
 
     // 显示随机数的弹出提示框
-    message.textContent = `点数为 ${randomNumber}`;
+    message.textContent = `玩家一点数为 ${randomNumber}`;
     message.style.display = 'block';
 
     // 显示对应的骰子GIF
-    dice.src = `../image/${randomNumber}.gif`;
+    dice.src = `/src/public/image/${randomNumber}.gif`;
 
-    // 1秒后隐藏提示框
-    setTimeout(function() {
+    // 禁用骰子
+    yu_isDiceEnabled = false;
+
+    // 稍后隐藏提示框并移动船只
+    setTimeout(function () {
         message.style.display = 'none';
-        // 移动船只
-        moveToNextNode(randomNumber);
-    }, 1900);
-
-
+        // isMoving1 = true;
+        yu_moveBoat1(randomNumber, boat); // 移动船只
+    }, 1000);
 });
 
-function moveToNextNode(diceValue) {
-    if (currentNodeIndex >= nodes.length || isMoving) return; // 防止越界或重复移动
+// 绑定玩家二骰子的点击事件
+yu_dice2.addEventListener('click', function () {
+    if (!yu_isDiceEnabled || yu_isMoving2 || yu_currentPlayer !== 2) return; // 如果已经在移动或已到达终点，直接返回
 
-    const targetNodeIndex = Math.min(currentNodeIndex + diceValue, nodes.length - 1); // 目标节点
-    const startNode = nodes[currentNodeIndex];
+    // 产生1-6的随机数
+    const randomNumber = Math.floor(Math.random() * 6) + 1;
+
+    // 显示随机数的弹出提示框
+    yu_message2.textContent = `玩家二点数为 ${randomNumber}`;
+    yu_message2.style.display = 'block';
+
+    // 显示对应的骰子GIF
+    yu_dice2.src = `/src/public/image/${randomNumber}.gif`;
+
+    yu_isDiceEnabled = false;
+
+    // 稍后隐藏提示框并移动船只
+    setTimeout(function () {
+        yu_message2.style.display = 'none';
+        // yu_isMoving2 = true;
+        yu_moveBoat2(randomNumber, yu_boat2); // 移动船只
+    }, 1000);
+});
+
+// 玩家一移动船只的函数
+function yu_moveBoat1(steps, boatElement) {
+    moveToNextNode(steps, boatElement, currentNodeIndex1, isMoving1, '1');
+}
+
+// 玩家二移动船只的函数
+function yu_moveBoat2(steps, boatElement) {
+    moveToNextNode(steps, boatElement, yu_currentNodeIndex2, yu_isMoving2, '2');
+}
+
+// 移动船只的通用函数
+function moveToNextNode(diceValue, boatElement, currentIndex, movingFlag, player) {
+    if (currentIndex >= nodes.length || movingFlag) return; // 防止越界或重复移动
+
+    const targetNodeIndex = Math.min(currentIndex + diceValue, nodes.length - 1); // 目标节点
+    const startNode = nodes[currentIndex];
     const endNode = nodes[targetNodeIndex];
     let startTime = null;
 
-    isMoving = true;
+    movingFlag = true;
 
     function step(timestamp) {
         if (!startTime) startTime = timestamp;
         const progress = (timestamp - startTime) / 5000;
-        //商船的移动速度，自行调整，单位毫秒，e.g5000=5s
 
         if (progress < 1) {
             const pointAtLength = startNode + (endNode - startNode) * progress;
@@ -329,32 +405,91 @@ function moveToNextNode(diceValue) {
             const offsetY = boatHeight / 2;
             const extraOffsetY = -20;
 
-            boat.setAttribute('x', (point.x - offsetX).toString());
-            boat.setAttribute('y', (point.y - offsetY - extraOffsetY).toString());
+            boatElement.setAttribute('x', (point.x - offsetX).toString());
+            boatElement.setAttribute('y', (point.y - offsetY - extraOffsetY).toString());
 
             requestAnimationFrame(step);
         } else {
-            currentNodeIndex = targetNodeIndex;
-            if (modals[currentNodeIndex]) {
-                modals[currentNodeIndex].style.display = "block"; // 显示对应的模态框
+            currentIndex = targetNodeIndex;
+            if (currentIndex === yu_endNodeIndex) {
+                // 到达终点，显示胜利消息
+                yu_showVictoryMessage(player);
+                yu_isDiceEnabled = false;
+                return;
+            } else if (modals[currentIndex]) {
+                modals[currentIndex].style.display = "block"; // 显示对应的模态框
             }
-            isMoving = false;
+            movingFlag = false;
+            isMoving1 = false;
+            yu_isMoving2 = false;
+            yu_isDiceEnabled = true;
+            yu_switchPlayer();
         }
     }
-    //商船额外偏移量，默认跟随SVG曲线为跟随图片左上角0，0定位，此处微调为船底对其河流曲线
 
     requestAnimationFrame(step);
+
+    // 更新当前玩家的索引
+    if (player === '1') {
+        currentNodeIndex1 = targetNodeIndex;
+    } else if (player === '2') {
+        yu_currentNodeIndex2 = targetNodeIndex;
+    }
 }
 
+function yu_switchPlayer() {
+    yu_currentPlayer = yu_currentPlayer === 1 ? 2 : 1;
+    yu_updateDiceVisibility();
+}
+
+// 更新骰子的可见性
+function yu_updateDiceVisibility() {
+    if (yu_currentPlayer === 1) {
+        dice.style.opacity = '1';
+        yu_dice2.style.opacity = '0.5';
+        yu_dice2.style.pointerEvents = 'none';
+        dice.style.pointerEvents = 'auto';
+    } else {
+        dice.style.opacity = '0.5';
+        dice.style.pointerEvents = 'none';
+        yu_dice2.style.opacity = '1';
+        yu_dice2.style.pointerEvents = 'auto';
+    }
+}
+// 显示胜利消息
+function yu_showVictoryMessage(player) {
+    const victoryMessage = document.createElement('div');
+    victoryMessage.id = 'victory-message';
+    victoryMessage.style.position = 'fixed';
+    victoryMessage.style.top = '50%';
+    victoryMessage.style.left = '50%';
+    victoryMessage.style.transform = 'translate(-50%, -50%)';
+    victoryMessage.style.backgroundColor = 'orange';
+    victoryMessage.style.color = 'white';
+    victoryMessage.style.padding = '20px';
+    victoryMessage.style.borderRadius = '5px';
+    victoryMessage.style.zIndex = '200';
+    victoryMessage.style.fontSize = '24px';
+    victoryMessage.textContent = `玩家${player}胜利！游戏结束。`;
+
+    document.body.appendChild(victoryMessage);
+
+    // 禁用所有骰子点击事件
+    dice.style.pointerEvents = 'none';
+    dice.style.opacity = '0.5';
+    yu_dice2.style.pointerEvents = 'none';
+    yu_dice2.style.opacity = '0.5';
+}
+
+
 // 页面加载时，确保所有模态框都是隐藏的，并且船停在节点0
-window.onload = function() {
-    modals.forEach(function(modal) {
+window.onload = function () {
+    modals.forEach(function (modal) {
         if (modal) {
             modal.style.display = 'none'; // 确保所有模态框初始时是隐藏的
         }
     });
-    
-    // 将商船的初始位置设置为节点0
+    // 将第一艘船的初始位置设置为节点0
     const startNode = nodes[0]; // 节点0索引
     const point = path.getPointAtLength(startNode); // 获取节点0坐标
 
@@ -366,6 +501,17 @@ window.onload = function() {
 
     boat.setAttribute('x', (point.x - offsetX).toString());
     boat.setAttribute('y', (point.y - offsetY - extraOffsetY).toString());
+
+    // 将第二艘船的初始位置设置为节点1
+    const startNode2 = nodes[1]; // 节点1索引
+    const point2 = path.getPointAtLength(startNode2); // 获取节点1坐标
+
+    yu_boat2.setAttribute('x', (point2.x - offsetX - 50).toString());
+    yu_boat2.setAttribute('y', (point2.y - offsetY - extraOffsetY+50).toString());
+    yu_boat2.style.display = 'block';
+
+    // 初始化骰子状态
+    yu_updateDiceVisibility();
 };
 
 </script>
