@@ -120,6 +120,7 @@
         
     </style>
 </head>
+<audio id="audioClip" src="/src/public/media/yu_海浪1.mp3" preload="auto"></audio>
 <body>
 
 <!-- SVG 图像 -->
@@ -154,6 +155,7 @@
     <div class="modal-content">
         <span class="close">&times;</span>
         <h1>欢迎来到淮安</h1>
+        <h4>很不巧，淮安正刮着大风大雨，不适合船运，需要绕行！</h4>
         <p>淮安是大运河的重要节点，明清时期是漕运总督府所在地，漕运管理中心。水运发达，使淮安成为南北经济、文化交融的重要城市。</p>
     </div>
 </div>
@@ -268,7 +270,7 @@ const path = document.querySelector("path");
 const boat = document.querySelector("image");
 const yu_boat2 = document.querySelector("image#yu_boat2");
 const length = path.getTotalLength(); // 获取路径的总长度
-
+const yu_audio = document.getElementById('audioClip');
 // 定义12个节点位置的数组，添加节点0，并将其设置为无模态框显示
 const nodes = [0, 10, 200, 600, 700, 850, 950, 1030, 1200, 1450, 1550, 1750]; // 节点位置
 let currentNodeIndex1 = 0; // 当前的节点索引
@@ -370,23 +372,44 @@ yu_dice2.addEventListener('click', function () {
     }, 1000);
 });
 
+// 特殊节点（有大风大雨，需要做回退处理的特殊节点）
+let yu_specificNodeIndex = 2;
+// 玩家一和玩家二到达特殊节点的次数(该参数后面做更改处理)
+// 当有多个特殊节点时，有必要将特殊节点存在字典里，valus值则为到达该特殊节点的次数，只有第一次到达才会触发特殊回退响应
+
+// 目前下面的参数设置仅适用于只有一个节点
+let yu_times1 = 0;
+let yu_times2 = 0;
+
 // 玩家一移动船只的函数
 function yu_moveBoat1(steps, boatElement) {
-    moveToNextNode(steps, boatElement, currentNodeIndex1, isMoving1, '1');
+    moveToNextNode(steps, boatElement, currentNodeIndex1, isMoving1, '1', yu_times1);
+    yu_times1++
 }
 
 // 玩家二移动船只的函数
 function yu_moveBoat2(steps, boatElement) {
-    moveToNextNode(steps, boatElement, yu_currentNodeIndex2, yu_isMoving2, '2');
+    moveToNextNode(steps, boatElement, yu_currentNodeIndex2, yu_isMoving2, '2', yu_times2);
+    yu_times2++
 }
 
+
 // 移动船只的通用函数
-function moveToNextNode(diceValue, boatElement, currentIndex, movingFlag, player) {
+function moveToNextNode(diceValue, boatElement, currentIndex, movingFlag, player, yu_times) {
     if (currentIndex >= nodes.length || movingFlag) return; // 防止越界或重复移动
 
-    const targetNodeIndex = Math.min(currentIndex + diceValue, nodes.length - 1); // 目标节点
+    let targetNodeIndex = Math.min(currentIndex + diceValue, nodes.length - 1); // 目标节点
     const startNode = nodes[currentIndex];
-    const endNode = nodes[targetNodeIndex];
+    let endNode = null;
+
+    // 特殊处理节点2
+    if (targetNodeIndex >= yu_specificNodeIndex && yu_times === 0) {
+        // 重置目标节点，将目标节点改为特殊节点，让船只强制在特殊节点停止
+        targetNodeIndex = yu_specificNodeIndex;
+    }
+    // 获取目标节点位置
+    endNode = nodes[targetNodeIndex];
+
     let startTime = null;
 
     movingFlag = true;
@@ -415,14 +438,23 @@ function moveToNextNode(diceValue, boatElement, currentIndex, movingFlag, player
                 // 到达终点，显示胜利消息
                 yu_showVictoryMessage(player);
                 yu_isDiceEnabled = false;
+                yu_stopAudio();
                 return;
             } else if (modals[currentIndex]) {
+                // 到达淮阳的时候播放音频
+                if(currentIndex === 2 && yu_times === 0){
+                    yu_playAudio()
+                }
                 modals[currentIndex].style.display = "block"; // 显示对应的模态框
             }
             movingFlag = false;
             isMoving1 = false;
             yu_isMoving2 = false;
             yu_isDiceEnabled = true;
+            if(currentIndex === 2 && yu_times === 0){
+                // stopAudio()
+                yu_moveToLastNode(boatElement, currentIndex, yu_isMoving2, player, yu_times)
+            }
             yu_switchPlayer();
         }
     }
@@ -442,6 +474,53 @@ function yu_switchPlayer() {
     yu_updateDiceVisibility();
 }
 
+// 船只回退函数
+// 当船只到达特殊节点时触发
+function yu_moveToLastNode(boatElement, currentIndex, movingFlag, player, times) {
+    if (currentIndex >= nodes.length || movingFlag) return; // 防止越界或重复移动
+
+    const targetNodeIndex = currentIndex - 1; // 目标节点
+    const startNode = nodes[currentIndex];
+    const endNode = nodes[targetNodeIndex];
+    let startTime = null;
+
+    movingFlag = true;
+
+    function step(timestamp) {
+    if (!startTime) startTime = timestamp;
+    const progress = (timestamp - startTime) / 5000;
+    if (progress < 1) {
+        const pointAtLength = startNode + (endNode - startNode) * progress;
+        const point = path.getPointAtLength(pointAtLength);
+
+        const boatWidth = 256;
+        const boatHeight = 256;
+        const offsetX = boatWidth / 2;
+        const offsetY = boatHeight / 2;
+        const extraOffsetY = -20;
+
+        boatElement.setAttribute('x', (point.x - offsetX).toString());
+        boatElement.setAttribute('y', (point.y - offsetY - extraOffsetY).toString());
+        requestAnimationFrame(step);
+    } else {
+        currentIndex = targetNodeIndex;
+        movingFlag = false;
+        isMoving1 = false;
+        yu_isMoving2 = false;
+        yu_isDiceEnabled = true;
+        yu_stopAudio()
+    }
+}
+    requestAnimationFrame(step);
+
+    // 更新当前玩家的索引
+    if (player === '1') {
+        currentNodeIndex1 = targetNodeIndex;
+    } else if (player === '2') {
+        yu_currentNodeIndex2 = targetNodeIndex;
+    }
+}
+
 // 更新骰子的可见性
 function yu_updateDiceVisibility() {
     if (yu_currentPlayer === 1) {
@@ -456,6 +535,7 @@ function yu_updateDiceVisibility() {
         yu_dice2.style.pointerEvents = 'auto';
     }
 }
+
 // 显示胜利消息
 function yu_showVictoryMessage(player) {
     const victoryMessage = document.createElement('div');
@@ -481,6 +561,15 @@ function yu_showVictoryMessage(player) {
     yu_dice2.style.opacity = '0.5';
 }
 
+function yu_playAudio() {
+    yu_audio.play();
+}
+
+// 停止播放音频
+function yu_stopAudio() {
+    yu_audio.pause();
+    yu_audio.currentTime = 0; // 重置音频播放位置
+}
 
 // 页面加载时，确保所有模态框都是隐藏的，并且船停在节点0
 window.onload = function () {
