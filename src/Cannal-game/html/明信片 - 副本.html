@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生成明信片</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+
+    <style>
+        /* 全局设置 */
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        /* 模态框的样式 */
+        .SKUAG_modal {
+            display: none; /* 默认隐藏模态框 */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+            backdrop-filter: blur(15px); /* 背景高斯模糊 */
+            justify-content: center;
+            align-items: center;
+            opacity: 0; /* 初始透明度为0 */
+            visibility: hidden; /* 初始不可见 */
+            transition: opacity 0.5s ease, visibility 0.5s ease; /* 渐变动画 */
+        }
+
+        /* 模态框 */
+        .SKUAG_modal-content {
+            width: 385px;
+            min-width: 385px;
+            height: auto;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .window-header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 10px;
+            background-color: #e8e8e8;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .window-buttons {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .close-button, .minimize-button, .maximize-button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: gray;
+            cursor: pointer;
+            transition: background-color 0.3s ease; /* 添加平滑过渡效果 */
+        }
+
+        /* 悬停时的效果 */
+        .close-button:hover {
+            background-color: #ff3b30; /* 红色按钮悬停变得更深 */
+        }
+
+        .minimize-button:hover {
+            background-color: #f4b400; /* 灰色按钮悬停变为黄色，模仿macOS最小化按钮 */
+        }
+
+        .maximize-button:hover {
+            background-color: #4cd964; /* 灰色按钮悬停变为绿色，模仿macOS最大化按钮 */
+        }
+
+        .close-button {
+            background-color: #ff605c; /* macOS的红色关闭按钮 */
+        }
+
+        .minimize-button, .maximize-button {
+            background-color: #bfbfbf; /* 默认的灰色按钮 */
+        }
+
+        /* 明信片内容展示区域 */
+        .SKUAG_postcard-content {
+            flex: 1;
+            height: 540px;
+            width: 385px;
+            background-color: white;
+            border-radius: 0 0 10px 10px;
+            text-align: center;
+            font-size: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 图片填充样式 */
+        .SKUAG_Photo {
+            width: 365px; /* 固定容器宽度 */
+            height: 550px; /* 固定容器高度 */
+            margin: 10px auto; /* 居中容器并保留上下边距 */
+            overflow: hidden; /* 确保内容不溢出容器 */
+            border-radius: 0; /* 如果需要圆角可以调整 */
+        }
+
+        .SKUAG_Photo_img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 确保图片在容器内填充，比例不变 */
+            border-radius: 0; /* 图片圆角，如果需要可以调整 */
+        }
+
+        /* 明信片文字样式 */
+        .SKUAG_postcard_Text {
+            width: 365px; /* 让图片占据一半的明信片空间 */
+            height: 65px;
+            margin: 0px 10px 5px 10px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            text-align: left;
+        }
+
+        .SKUAG_postcard_Text_left1{
+            width: 217px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .SKUAG_postcard_Text_left1_innertop{
+            width: 217px;
+            height: 20px;
+        }
+
+        .SKUAG_postcard_Text_left1_innertop h1{
+            width: 217px;
+            height: 17px;
+            font-weight: 1000;
+            margin: 1px;
+            font-size: 17px;
+            font-family: 'Times New Roman', Times, serif; 
+            text-align: left;
+        }
+
+        .SKUAG_postcard_Text_left1_innerbot{
+            width: 217px;
+            padding-left: 3px;
+            height: 45px;
+            padding-top: 2px;
+        }
+
+        .SKUAG_postcard_Text_left1_innerbot h5 {
+            width: 215px;
+            font-size: 10px; /* 字体大小 */
+            line-height: 11px; /* 行高与字体大小相同 */
+            font-weight: 100;
+            margin: 1px; 
+            height: 11px; /* 设置每个h5的高度 */
+            overflow: hidden; /* 超出部分隐藏 */
+            text-align: left;
+            font-family: 'PingFang SC', 'Microsoft Yahei', sans-serif; /* 使用PingFang字体 */
+        }
+
+        .SKUAG_postcard_Text_right1{
+            width: 148px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .SKUAG_postcard_Text_right1_innertop{
+            width: 148px;
+            height: 45px;
+        }
+
+        .SKUAG_postcard_Text_right1_innerbot{
+            width: 148px;
+            height: 16px;
+            padding-right: 2px;
+        }
+
+        .SKUAG_postcard_Text_right1_innertop h5 {
+            width: 148px;
+            font-size: 13px; /* 字体大小 */
+            line-height: 14px; /* 行高与字体大小相同 */
+            margin: 1px; 
+            height: 14px; /* 设置每个h5的高度 */
+            overflow: hidden; /* 超出部分隐藏 */
+            text-align: right;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        .SKUAG_postcard_Text_right1_innerbot h6{
+            height: 10px;
+            width: 148px;
+            font-size: 10px; /* 字体大小 */
+            line-height: 14px; /* 行高与字体大小相同 */
+            margin: 2px 2px 1px 1px; 
+            height: 14px; /* 设置每个h5的高度 */
+            overflow: hidden; /* 超出部分隐藏 */
+            text-align: right;
+        }
+
+        /* 按钮容器 */
+        .SKUAG_button-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+        }
+
+        /* 按钮样式 */
+        .SKUAG_btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* 保存按钮 */
+        .SKUAG_save-btn {
+            background-color: #d4a574; /* 柔和的浅棕色 */
+            border: 2px solid #a67c52; /* 较浅的深棕色边框 */
+            color: #5a3820; /* 柔和的文字颜色 */
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease;
+        }
+
+        .SKUAG_save-btn:hover {
+            background-color: #c29568; /* 悬停时稍微变暗 */
+        }
+
+        /* 控制显示状态的类 */
+        .SKUAG_modal.show {
+            display: flex;
+            opacity: 1;
+            visibility: visible; /* 可见性恢复 */
+        }
+
+        .SKUAG_modal.hide {
+            display: flex;
+            opacity: 0;
+            visibility: hidden; /* 隐藏可见性 */
+        }
+
+        /* 打印时设置纸张大小A5、缩放比例140%、页边距为0 */
+        @media print {
+            @page {
+                size: A5; /* 设置纸张大小为A5 */
+                margin: 0; /* 设置页边距为0 */
+            }
+
+            /* 设置内容的缩放比例为140% */
+            body {
+                zoom: 1.4; /* 使用zoom进行页面的缩放 */
+            }
+
+            .SKUAG_postcard-content {
+                width: auto;
+                height: 100%;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 生成明信片按钮 -->
+    <button id="SKUAG_generatePostcardBtn" class="SKUAG_btn">生成明信片</button>
+
+    <!-- 模态框 -->
+    <div id="SKUAG_modalA" class="SKUAG_modal">
+        <div class="SKUAG_modal-content" id="SKUAG_postcardContent">
+            <!-- 类MAC风格的关闭按钮 -->
+            <div class="window-header">
+                <div class="window-buttons">
+                    <div class="close-button" id="SKUAG_closeModalBtn"></div>
+                    <div class="minimize-button"></div>
+                    <div class="maximize-button"></div>
+                </div>
+            </div>
+            <!-- 上部展示明信片内容 -->
+            <div class="SKUAG_postcard-content" id="SKUAG_postcardDisplay">
+                <div class="SKUAG_Photo">
+                    <img src="../image/京杭大运河北京通惠河段.webp" alt="京杭大运河北京通惠河段" style="width: 100%; height: 100%; object-fit: cover; border-radius: 0;">
+                </div>
+                
+                <div class="SKUAG_postcard_Text">
+
+                    <div class="SKUAG_postcard_Text_left1">
+                        <div class="SKUAG_postcard_Text_left1_innertop">
+                            <h1>京杭大运河北京通惠河段</h1>
+                        </div>
+                        <div class="SKUAG_postcard_Text_left1_innerbot">
+                            <h5 >SKUAG：</h5>
+                            <h5 >您投掷筛子6次，历经3场风雨</h5>
+                            <h5 >成功地带领船队抵达运河终点！</h5>
+                        </div>
+                    </div>
+
+                    <div class="SKUAG_postcard_Text_right1">
+                        <div class="SKUAG_postcard_Text_right1_innertop">
+                            <h5 >这里是北京</h5>
+                            <h5 >这里是北京</h5>
+                            <h5 >这里是北京</h5>
+                        </div>
+                        <div class="SKUAG_postcard_Text_right1_innerbot">
+                            <h6>2024.9.25</h6>
+                        </div>
+
+                    </div>
+                    
+                </div>
+            </div>
+
+            <!-- 下方按钮区域 -->
+            <div class="SKUAG_button-container">
+                <button id="SKUAG_savePostcardBtn" class="SKUAG_btn SKUAG_save-btn">保存明信片</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 导入html2canvas库 -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.7/dist/html2canvas.min.js"></script>
+
+    <!-- dom-to-image库 -->
+    <script src="https://cdn.jsdelivr.net/npm/dom-to-image@2.6.0/src/dom-to-image.min.js"></script>
+
+    <script>
+        // 获取按钮和模态框元素
+        var SKUAG_modal = document.getElementById("SKUAG_modalA");
+        var SKUAG_btn = document.getElementById("SKUAG_generatePostcardBtn");
+        var SKUAG_closeModalBtn = document.getElementById("SKUAG_closeModalBtn");
+        var SKUAG_savePostcardBtn = document.getElementById("SKUAG_savePostcardBtn");
+
+        // 显示模态框
+        function SKUAG_showModal() {
+            SKUAG_modal.classList.remove("hide");
+            SKUAG_modal.classList.add("show");
+        }
+
+        // 隐藏模态框
+        function SKUAG_hideModal() {
+            SKUAG_modal.classList.remove("show");
+            SKUAG_modal.classList.add("hide");
+            // 延迟500ms后完全隐藏（等待动画完成）
+            setTimeout(function() {
+                SKUAG_modal.style.display = "none";
+            }, 500);
+        }
+
+        // 点击生成明信片按钮打开模态框
+        SKUAG_btn.onclick = function() {
+            SKUAG_modal.style.display = "flex"; // 每次点击前先设置为flex确保可见性
+            setTimeout(SKUAG_showModal, 10);  // 确保显示模态框的动画
+        }
+
+        // 点击左上角macOS风格关闭按钮关闭模态框
+        SKUAG_closeModalBtn.onclick = function() {
+            SKUAG_hideModal(); // 渐隐模态框
+        }
+
+        // 保存明信片功能
+        SKUAG_savePostcardBtn.onclick = function() {
+            var printContents = document.getElementById("SKUAG_postcardDisplay").outerHTML; // 获取 SKUAG_postcard-content 的HTML结构
+            var printWindow = window.open('', '', 'height=600,width=800');
+            printWindow.document.write('<html><head><title>打印明信片</title>');
+
+            // 引入页面的样式
+            printWindow.document.write('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap">');
+            var styles = document.querySelectorAll('style');
+            for (var i = 0; i < styles.length; i++) {
+                printWindow.document.write('<style>' + styles[i].innerHTML + '</style>');
+            }
+
+            printWindow.document.write('</head><body>');
+            printWindow.document.write(printContents); // 打印 SKUAG_postcard-content 的内容
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+    </script>
+
+</body>
+</html>
