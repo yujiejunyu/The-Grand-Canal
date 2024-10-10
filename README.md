@@ -13,7 +13,7 @@
 3. 各页面都需要的js就在public里建设一个文件js，放在那里，如果只是单独板块用的js,就放板块下
 ## 可能用到的git指令：
 ### 克隆地址
-git clone git地址
+git clone git@github.com:yujiejunyu/The-Grand-Canal.git
 
 ### 创建分支
 git checkout -b [你的分支名称]
