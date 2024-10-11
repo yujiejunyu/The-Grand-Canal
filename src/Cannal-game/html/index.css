@@ -1,0 +1,105 @@
+.parther {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.container {
+    position: relative;
+    width: 45%;
+    height: 90vh;
+    overflow: hidden;
+    display: flex;
+    float: left;
+    object-fit: contain;
+}
+
+.container1 {
+    position: relative;
+    width: 45%;
+    height: 90vh;
+    overflow: hidden;
+    display: flex;
+    object-fit: contain;
+}
+
+.image-wrapper1 {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 45%;
+    height: 80%;
+    z-index: 10;
+}
+
+.image-wrapper2 {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 40%;
+    height: 80%;
+    z-index: 10;
+}
+
+.image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    object-fit: contain;
+}
+
+.drag-button {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: blue;
+    cursor: pointer;
+}
+.bottom-move{
+    position: absolute;
+    left: 500px;
+}
+.building{
+    width: 100px;
+    height: 100px;
+    display: flex;
+    position: absolute;
+    z-index: 11;
+}
+.building button{
+    border: none; /* 去除边框 */
+    background-color: transparent; /* 去除背景颜色 */
+}
+
+.popup {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 700px;
+    height: 700px;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 10px; /* 添加圆角 */
+    z-index: 20;
+}
+
+.popup p {
+    text-align: center;
+}
+
+.close-button {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
