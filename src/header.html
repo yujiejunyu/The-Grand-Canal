@@ -1,0 +1,192 @@
+<!DOCTYPE html>  
+<html lang="en">  
+    <head>  
+        <meta charset="utf-8">  
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">  
+        <meta name="viewport" content="width=device-width,initial-scale=1.0"> 
+        <link href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"> 
+        <title>导航栏</title>  
+        <style>  
+            * {  
+                margin: 0;  
+                padding: 0;  
+                box-sizing: border-box;  
+            }  
+            .container {  
+                background: #bdffe7;  
+                width: 100%;  
+                height: 100vh;  
+                display: flex;  
+                align-items: flex-start; /* 从顶部开始对齐 */  
+            }  
+            nav {  
+                background: #fff;  
+                border-radius: 5px; /* 修改为更常见的圆角大小 */  
+                padding: 5px;  
+                box-shadow: 0 25px 20px -20px rgba(0, 0, 0, 0.4);  
+                width: 100px;  
+                opacity: 0.8;  
+                animation: slideDownNav 1.5s ease-out forwards; /* 动画名称、持续时间、缓动函数和保持结束状态 */  
+
+            }  
+            nav div {
+                display: flex;
+                justify-content: center;
+                padding: 10px 0;
+            }
+            nav ul {  
+                list-style: none;  
+                display: flex;  
+                flex-direction: column; /* 竖向排列 */  
+                align-items: center; /* 子项在交叉轴上居中（这里是垂直方向） */  
+            }  
+            nav ul li {  
+                margin: 10px 0 0 0; /* 修改为只在垂直方向上有间距 */  
+                padding: 0px 10px; /* 调整内边距以适应垂直布局 */  
+                font-size: 18px;  
+                font-weight: 500;  
+                color: #868383;  
+                cursor: pointer;  
+                position: relative;  
+                z-index: 2;  
+                transition: transform 0.3s, color 0.5s; /* 添加 transform 的过渡效果 */ 
+                animation-name: slideDown; /* 应用动画 */  
+                animation-duration: 0.5s; /* 动画持续时间 */  
+                animation-fill-mode: forwards; /* 保持动画结束时的状态 */ 
+            }  
+            nav ul li:nth-child(2n){
+                width: 20px;
+                height: 1px;
+                background-color: #bbb;
+
+            }
+            nav ul li:hover {  
+                color: #000;  
+            } 
+            nav ul li:hover img {
+                transform: scale(1.2); /* 放大20% */
+                transition: transform 0.3s ease; /* 平滑过渡效果 */
+            }
+            @keyframes slideDown {  
+                from {  
+                    transform: translateY(-100%); /* 从上方完全不可见的位置开始 */  
+                    opacity: 0;  
+                }  
+                to {  
+                    transform: translateY(0); /* 移动到其正常位置 */  
+                    opacity: 1;  
+                }  
+            }  
+ 
+            /* 为每个列表项设置不同的延迟，以模拟风琴效果 */  
+            /* nav ul li:nth-child(1) { animation-delay: 0.4s; }  
+            nav ul li:nth-child(2) { animation-delay: 0.5s; }  
+            nav ul li:nth-child(3) { animation-delay: 0.6s; }  
+            nav ul li:nth-child(4) { animation-delay: 0.7s; }  
+            nav ul li:nth-child(5) { animation-delay: 0.8s; }  */
+
+            @keyframes slideDownNav {  
+                from {  
+                    transform: translateY(-100%);  
+                    opacity: 0;  
+                }  
+                to {  
+                    transform: translateY(0);  
+                    opacity: 0.8;  
+                }  
+            }  
+
+            .hidden {  
+                display: none;  
+            }  
+
+            nav.hidden ul {  
+                display: none;  
+            }
+            
+            a{
+                font-size: 20px;
+                color: #777;
+                text-decoration: none;
+            }
+            @keyframes slideUpNav {  
+                from {  
+                    transform: translateY(0);  
+                    opacity: 0.8;  
+                }  
+                to {  
+                    transform: translateY(-100%);  
+                    opacity: 0;  
+                }  
+            }
+            p{
+                font-size: 15px;
+            }
+    
+            nav ul li img {
+                width: 30px;
+                height: 25px;
+                display: block;
+                margin: 0 auto 5px auto;  
+            }
+        </style>  
+    </head>  
+    <body>  
+        <div class="container">  
+            <nav>
+                <div><img src="../src/public/image/logo.png" style="width: 70x;height:65px;"></div>  
+                <ul>  
+                    <li href="#"><img src="../src/public/image/首页.png"><p style="text-align: center;">首页</p><p style="font-size: 11px;">home</p></li>  
+                    <li></li>
+                    <li href="#"><img src="../src/public/image/历史.png"><p style="text-align: center;">历史</p><p style="font-size: 11px;">history</p></li>  
+                    <li></li>
+                    <li href="#"><img src="../src/public/image/文化.png"><p style="text-align: center;">文化</p><p style="font-size: 11px;">culture</p></li> 
+                    <li></li>
+                    <li href="#"><img src="../src/public/image/文创.png"><p style="text-align: center;">文创</p><p style="font-size: 11px;">cultural</p></li>  
+                    <li></li>
+                    <li href="#"><img src="../src/public/image/娱乐.png"><p style="text-align: center;">娱乐</p><p style="font-size: 11px;">recreation</p></li>  
+                    <li></li> 
+                </ul>  
+                <div><a href="javascript:void(0);" onclick="toggleNav()"><i id="nav-icon" class="fa fa-angle-double-up"></i></a></div>
+            </nav>  
+        </div>  
+    </body>  
+    
+    <script>
+        function toggleNav() {  
+            var nav = document.querySelector('ul');  
+            var icon = document.getElementById('nav-icon');  
+            // 检查是否应该隐藏导航栏  
+            if (!nav.classList.contains('hidden')) {  
+                // 添加向上收起动画  
+                nav.style.animation = 'slideUpNav 0.6s ease-out forwards';  
+                // 监听动画结束事件  
+                nav.addEventListener('animationend', function() {  
+                    // 动画结束后，添加hidden类  
+                    nav.classList.add('hidden');  
+                    // 清除动画样式，避免影响后续动画  
+                    nav.style.animation = '';  
+                    // 更改图标  
+                    if (icon.classList.contains('fa-angle-double-up')) {
+                        icon.classList.remove('fa-angle-double-up');
+                        icon.classList.add('fa-angle-double-down');
+                    } else {
+                        icon.classList.remove('fa-angle-double-down');
+                        icon.classList.add('fa-angle-double-up');
+                    }
+                }, { once: true });  
+            } else {  
+                // 移除hidden类  
+                nav.classList.remove('hidden');  
+                // 更改图标  
+                if (icon.classList.contains('fa-angle-double-down')) {
+                    icon.classList.remove('fa-angle-double-down');
+                    icon.classList.add('fa-angle-double-up');
+                } else {
+                    icon.classList.remove('fa-angle-double-up');
+                    icon.classList.add('fa-angle-double-down');
+                }
+            }  
+        }
+    </script>
+</html>

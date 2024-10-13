@@ -1,0 +1,596 @@
+     body {
+         font-family: Arial, sans-serif;
+
+         /* background-color: #b79e7dc0; */
+         background-image: url('image/back3.jpeg');
+         /* 复古背景色 */
+         margin: 0;
+         padding: 0;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         height: 100vh;
+         overflow: hidden;
+     }
+
+     .container {
+         display: block;
+         width: 100%;
+     }
+
+     .intro {
+         padding-top: 5%;
+         text-align: center;
+         color: black;
+         font-family: 'Times New Roman', Times, serif;
+     }
+
+     .intro h4 {
+         margin-bottom: 20px;
+         color: #777;
+     }
+
+     #poetry {
+         position: relative;
+     }
+
+     .poetry-content {
+         padding-top: 4%;
+         display: flex;
+         justify-content: space-around;
+         align-items: center;
+         flex-wrap: wrap;
+     }
+
+     .poetry-content img {
+         width: 100%;
+         height: 200px;
+         object-fit: cover;
+     }
+
+
+     .button {
+         width: 100%;
+         margin: 0 auto;
+         margin-bottom: 5px;
+         margin-top: 2%;
+         float: bottom;
+     }
+
+
+     .button button {
+         width: 30%;
+         height: 10px;
+         font-size: 20px;
+         border-radius: 10px;
+         border: 1px solid #ccc;
+         background-color: #ccc;
+         margin: 5px;
+         cursor: pointer;
+     }
+
+     .overlay {
+         position: fixed;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         background-color: rgba(0, 0, 0, 0.5);
+         display: none;
+         z-index: 999;
+     }
+
+     .poetry-content {
+         position: relative;
+         z-index: 1000;
+         text-align: center;
+     }
+
+     .card {
+         perspective: 1000px;
+         width: 300px;
+         height: 400px;
+         position: relative;
+         cursor: pointer;
+         /* 后添加 */
+         margin: auto;
+         background-color: #fff;
+         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+         border-radius: 10px;
+         overflow: hidden;
+
+     }
+
+     .card-front,
+     .card-back {
+         position: absolute;
+         width: 100%;
+         height: 100%;
+         backface-visibility: hidden;
+         transition: transform 0.6s;
+         transform-style: preserve-3d;
+         border-radius: 10px;
+         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+     }
+
+     .card-front {
+         background-color: #d2b48c;
+         /* 浅蓝色背景，模仿古代书卷 */
+         display: flex;
+         justify-content: center;
+         align-items: center;
+
+         flex-direction: column;
+     }
+
+     .card-front p {
+         margin: 0 0 10px;
+         font-size: 16px;
+         letter-spacing: 6px;
+         line-height: 30px;
+         color: #666;
+     }
+
+     .card-front img {
+         max-width: 100%;
+         max-height: 100%;
+         border-radius: 10px 10px 0 0;
+     }
+
+     .card-back {
+         background-color: #fff;
+         transform: rotateY(180deg);
+         padding: 20px;
+         box-sizing: border-box;
+     }
+
+     .card-content {
+         text-align: center;
+         line-height: 50px;
+     }
+
+     .card-content h2 {
+         margin: 0 0 10px;
+         font-size: 24px;
+         color: #820a0adf;
+
+     }
+
+     .card-content p {
+         margin: 0 0 10px;
+         font-size: 16px;
+         letter-spacing: 6px;
+         color: #666;
+
+
+     }
+
+     .trigger {
+         display: none;
+         /* 隐藏触发按钮，因为我们通过点击图片来触发翻转 */
+         font-size: 2em;
+         cursor: pointer;
+         margin-top: 20px;
+     }
+
+     .flipped .card-front {
+         transform: rotateY(-180deg);
+     }
+
+     .flipped .card-back {
+         transform: rotateY(0);
+     }
+
+     .cultural-button {
+         background-color: #f0e68c;
+         /* 浅黄色背景，类似古代纸张的颜色 */
+         border: 1px solid #d2b48c;
+         /* 深一些的棕色边框，模仿古代书卷的边缘 */
+         /* color: #333; */
+         /* 深色文字，确保可读性 */
+         font-family: 'KaiTi', '楷体', serif;
+         /* 使用楷体字体，更符合古代文化气息 */
+         font-size: 16px;
+         /* 字体大小适中 */
+         padding: 10px 20px;
+         /* 内边距，使按钮看起来更饱满 */
+         border-radius: 5px;
+         /* 圆角，使按钮看起来更柔和 */
+         cursor: pointer;
+         /* 鼠标悬停时显示手指图标，表示可点击 */
+         transition: background-color 0.3s, color 0.3s;
+         /* 添加背景色和文字颜色的过渡效果 */
+         /* 后添加 */
+         display: block;
+         width: 100px;
+         height: 30px;
+         margin: 10px auto;
+         text-align: center;
+     }
+
+     .cultural-button:hover {
+         /* background-color: #e0d275; */
+         /* 鼠标悬停时背景色变浅 */
+         color: #000;
+         /* 鼠标悬停时文字颜色变深 */
+         background: #ba9f7c;
+     }
+
+     /* 灯笼 */
+     /* styles.css */
+     body,
+     html {
+         margin: 0;
+         padding: 0;
+         height: 100%;
+         overflow: hidden;
+
+     }
+
+     .lantern {
+         position: fixed;
+         width: 200px;
+         height: 300px;
+         pointer-events: auto;
+         /* 允许灯笼接收点击事件 */
+         cursor: pointer;
+         /* 鼠标悬停时显示点击手势 */
+         transition: all 0.3s ease-in-out;
+         /* 平滑过渡效果 */
+     }
+
+     .lantern-inner {
+         position: relative;
+         width: 100%;
+         height: 100%;
+     }
+
+     .lantern img {
+         width: 100%;
+         height: 100%;
+         object-fit: cover;
+         border-radius: 15px;
+
+         opacity: 0.85;
+     }
+
+     .lantern-left {
+         top: 2px;
+         left: 30px;
+         transform: rotate(-10deg);
+         animation: floatLeft 5s infinite ease-in-out;
+     }
+
+     .lantern-right {
+         top: -30px;
+         right: 30px;
+         transform: rotate(10deg);
+         animation: floatRight 5s infinite ease-in-out;
+     }
+
+
+     @keyframes floatLeft {
+
+         0%,
+         100% {
+             transform: translateY(0) rotate(-10deg);
+         }
+
+         50% {
+             transform: translateY(-20px) rotate(-12deg);
+         }
+     }
+
+     @keyframes floatRight {
+
+         0%,
+         100% {
+             transform: translateY(0) rotate(10deg);
+         }
+
+         50% {
+             transform: translateY(-20px) rotate(12deg);
+         }
+     }
+
+     .lantern-message {
+         position: absolute;
+         bottom: -50px;
+         left: 50%;
+         transform: translateX(-50%);
+         width: 100%;
+         padding: 10px;
+         background-color: rgba(255, 255, 255, 0.8);
+         border-radius: 10px;
+         box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+         opacity: 0;
+         transition: opacity 0.3s ease-in-out, bottom 0.3s ease-in-out;
+     }
+
+     .lantern:hover .lantern-message,
+     .lantern.active .lantern-message {
+         opacity: 1;
+         bottom: 0;
+     }
+
+     /* 烟花 */
+     .firework-left {
+         position: absolute;
+         top: 20px;
+         /* 距离顶部0px */
+         left: 30px;
+         /* 距离左边0px */
+         width: 300px;
+         /* 根据需要调整宽度 */
+         height: auto;
+         /* 自适应高度 */
+         z-index: 1;
+         /* 确保在其他元素之上 */
+     }
+
+     .firework-right {
+         position: absolute;
+         top: 30px;
+         /* 距离顶部0px */
+         right: 10px;
+         /* 距离右边0px */
+         width: 400px;
+         /* 根据需要调整宽度 */
+         height: auto;
+         /* 自适应高度 */
+         z-index: 1;
+         /* 确保在其他元素之上 */
+     }
+
+     /* 美食 */
+
+
+     .container {
+         text-align: center;
+         width: 80%;
+         max-width: 1200px;
+     }
+
+     .image-row {
+         display: flex;
+         justify-content: space-between;
+         margin: 20px 0;
+     }
+
+     .image-box {
+         position: relative;
+         width: calc(25% - 20px);
+         /* 四张图片一行，减去间距 */
+         box-sizing: border-box;
+     }
+
+     .image-box img {
+         width: 100%;
+         display: block;
+         transition: transform 0.3s ease, filter 0.3s ease;
+     }
+
+     .image-box:hover img {
+         transform: scale(1.1);
+         /* 放大 */
+         filter: blur(5px);
+         /* 变模糊 */
+     }
+
+     .overlay1 {
+         position: absolute;
+         top: 0;
+         left: 0;
+         right: 0;
+         bottom: 0;
+         background: rgba(0, 0, 0, 0);
+         display: flex;
+         justify-content: center;
+         align-items: flex-end;
+         padding: 10px;
+         box-sizing: border-box;
+         cursor: pointer;
+     }
+
+     .overlay1 .text {
+         background-color: rgba(0, 0, 0, 0.5);
+         color: #fff;
+         padding: 5px 10px;
+         border-radius: 5px;
+         text-decoration: none;
+     }
+
+     .pic {
+         position: fixed;
+         top: 50%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+         background-color: #fff;
+         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+         border-radius: 10px;
+         display: none;
+         /* 默认隐藏 */
+         z-index: 1000;
+         width: 300px;
+         padding: 20px;
+         box-sizing: border-box;
+     }
+
+     .pic-content {
+         position: relative;
+     }
+
+     .pic h2 {
+         margin-top: 0;
+         font-size: 1.5em;
+     }
+
+     .pic p {
+         font-size: 1em;
+         color: #555;
+         line-height: 20px;
+         letter-spacing: 3px;
+         font-weight: bold;
+         text-indent: 2em;
+         /* 首行缩进2em */
+     }
+
+     .close-button {
+         position: absolute;
+         top: 10px;
+         right: 10px;
+         background-color: #d9534f;
+         color: #fff;
+         border: none;
+         padding: 5px 10px;
+         border-radius: 5px;
+         cursor: pointer;
+     }
+
+     .close-button:hover {
+         background-color: #c9302c;
+     }
+
+     /* 复古风格样式 */
+     .pic {
+         border: 1px solid #ccc;
+         background-color: #fff9f5;
+     }
+
+     .piccard-content h2 {
+         color: #8b4513;
+     }
+
+     .pic-content p {
+         color: #555;
+         font-family: 'Times New Roman', Times, serif;
+         /* 使用复古字体 */
+     }
+
+     /* 乐曲界面 */
+     .music {
+         width: 100%;
+         height: 100%;
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         justify-content: center;
+     }
+
+     .Music_intro {
+         display: flex;
+         flex-direction: row;
+         align-items: center;
+         justify-content: center;
+         margin-top: 30px;
+     }
+
+     .Music_Showcase {
+         width: 300px;
+         height: 400px;
+         border: 2px solid #a67c52;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         border-radius: 30px;
+         margin: 15px;
+         position: relative;
+         overflow: hidden;
+         transition: all 0.3s ease-in-out;
+
+     }
+
+     .Music_Showcase:hover {
+         transform: scale(1.1);
+         /* 悬停时放大 */
+     }
+
+
+     .Music_Showcase::before {
+         content: '';
+         position: absolute;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         background-size: cover;
+         background-position: center;
+         z-index: 1;
+         transition: all 0.3s ease-in-out;
+     }
+
+     .Music_Showcase::after {
+         content: '';
+         position: absolute;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         background-color: rgba(0, 0, 0, 0.40);
+         z-index: 2;
+     }
+
+     .Music_Showcase:hover::before {
+         filter: blur(10px);
+         /* 悬停时模糊效果 */
+     }
+
+     .Music_Showcase:hover h4 {
+         opacity: 0;
+         /* 隐藏标题 */
+     }
+
+     .Music_Showcase:hover .Music_Description {
+         opacity: 1;
+         /* 显示介绍 */
+     }
+
+     .Music_Showcase h4 {
+         position: relative;
+         z-index: 3;
+         color: white;
+         text-align: center;
+         font-size: 2.45em;
+         font-family: 'Times New Roman', Times, serif;
+         margin: 0;
+         padding: 20px;
+         transition: opacity 0.3s ease-in-out;
+     }
+
+     .Music_Description {
+         position: absolute;
+         width: 85%;
+         top: 50%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+         color: white;
+         font-size: 1.2em;
+         text-align: center;
+         z-index: 4;
+         opacity: 0;
+         transition: opacity 0.3s ease-in-out;
+         text-indent: 2em;
+         /* 首行缩进2em */
+     }
+
+     /* 每个框单独设置背景 */
+     .Music_Showcase1::before {
+         background-image: url('image/苏州评弹.jpg');
+         /* 背景1 */
+     }
+
+     .Music_Showcase2::before {
+         background-image: url('image/淮扬音乐.jpg');
+         /* 背景2 */
+     }
+
+     .Music_Showcase3::before {
+         background-image: url('image/京剧.jpg');
+         /* 背景3 */
+     }
+
+     .Music_Showcase4::before {
+         background-image: url('image/昆曲.jpg');
+         /* 背景4 */
+     }

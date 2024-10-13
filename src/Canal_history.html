@@ -1,0 +1,455 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Interactive Slider with Nodes</title>  
+    <style> 
+        body, html {    
+            margin: 0;    
+            padding: 0;    
+            height: 100%;    
+            width: 100%;    
+            overflow: hidden;
+            background-color: #FFFAF2;
+        }    
+    
+        #content {  
+            position: relative;  
+            display: flex;    
+            height: 100vh; /* 使容器高度占满整个视口高度 */    
+            width: 100%;    
+        }    
+    
+        /* 左侧背景地图 */
+        .box1 {    
+            flex: 0 0 60%;    
+            background-image: url('../src/public/image/地图1.jpg');    
+            background-size: 75%; /* 背景图保持比例填充 */    
+            background-position: center;  
+            background-repeat: no-repeat; /* 背景图不重复 */    
+        }    
+        .box2 {    
+            flex: 0 0 60%;    
+            background-image: url('../src/public/image/地图2.jpg');    
+            background-size: 75%; /* 背景图保持比例填充 */    
+            background-position: center;  
+            background-repeat: no-repeat; /* 背景图不重复 */    
+        }  
+        .box3 {    
+            flex: 0 0 60%;    
+            background-image: url('../src/public/image/地图3.jpg');    
+            background-size: 75%; /* 背景图保持比例填充 */    
+            background-position: center;  
+            background-repeat: no-repeat; /* 背景图不重复 */    
+        }  
+        .box4 {    
+            flex: 0 0 60%;    
+            background-image: url('../src/public/image/地图4.jpg');    
+            background-size: 75%; /* 背景图保持比例填充 */    
+            background-position: center;  
+            background-repeat: no-repeat; /* 背景图不重复 */    
+        }  
+        .box5 {    
+            flex: 0 0 60%;    
+            background-image: url('../src/public/image/地图5.jpg');    
+            background-size: 75%; /* 背景图保持比例填充 */    
+            background-position: center;  
+            background-repeat: no-repeat; /* 背景图不重复 */    
+        }  
+    
+        .right-box {    
+            flex: 1; /* 占据右边剩余的空间 */    
+            position: relative; /* 设置为相对定位 */  
+            background-color: #FFFAF2;
+        }  
+    
+        .image-container {
+            display: grid;
+            grid-gap: 10px;
+            padding: 10px;
+            grid-template-columns: repeat(8, 1fr);
+            grid-template-rows: repeat(12, 1fr);
+            height: 100%; /* 设置高度为100% */
+        }
+        .image-container img {
+            width: 100%;
+            display: block;
+            opacity: 0; /* 初始透明度为0 */
+            transition: opacity 1s ease-in; /* 透明度变化的动画效果 */
+            cursor: pointer; /* 鼠标悬停时显示手型 */
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+    
+        .image-container img:hover {
+            transform: scale(1.1); /* 鼠标悬停时放大图片 */
+        }
+        
+        /* 定位每张图片 */
+        .image-container img:nth-child(1) {
+            grid-row: 1 / span 4; 
+            grid-column: 1 / span 4; 
+        }
+        .image-container img:nth-child(2) {
+            grid-row: 2 / span 5; 
+            grid-column:5 / span 5; 
+        }
+        .image-container img:nth-child(3) {
+            grid-row:4 / span 5; 
+            grid-column:1 / span 5; 
+        }
+        .image-container img:nth-child(4) {
+            grid-row: 6 / span 5; 
+            grid-column:5 / span 5; 
+        }
+        .image-container img:nth-child(5) {
+            grid-row: 7 / span 5; 
+            grid-column:2 / span 5; 
+        }
+        
+        /* 底部滑动条样式 */
+        .scroll-bar {
+            position: fixed;
+            bottom: -60px;
+            left: 0;
+            width: 100%;
+            height: 143px;
+            /* background-color: #000; */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .slider {
+            width: 80%; 
+            height: 25px;
+            /* background-color: #555; */
+            position: absolute;
+            left: 10%;
+            border-radius: 5px;
+        }
+        .slider-btn {
+            /* width: 20px;
+            height: 100%;
+            background-color: #917d7d;
+            border-radius: 50%; */
+            position: absolute;
+            bottom: 0;
+            cursor: pointer;
+            transition: left 0.3s ease-in-out;
+            pointer-events: auto;
+        }
+        .slider-node {
+            width: 25px;
+            height: 5px;
+            /* background-color: #777; */
+            /* border-radius: 50%; */
+            position: absolute;
+            bottom: 70px;
+            font-family: 华文行楷;
+            font-size: 20px;
+            color: #0100008f;
+            align-items: flex-end; /* 向下对齐文本 */
+            text-align: center;
+            pointer-events: auto;
+            transition: color 0.3s ease; /* 添加颜色渐变效果 */
+        }
+        .slider-node:hover{
+            color: #e27878;
+        }
+        
+        /* 模态窗口样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 60%;
+            height: 100%;
+            overflow: auto;
+            /* background-color: rgba(0,0,0,0.4); */
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            border-radius: 10px;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #modal-img{
+            width: 100px;
+            height: 100px;
+        }
+
+        #modal-name{
+            font-size: 25px;
+            font-weight: bold;
+            margin: 0;
+            margin-left: 15px;
+        }
+    </style>  
+</head>  
+<body>  
+    <div id="content">
+
+        <!-- 先秦 -->
+        <div class="hist" id="hist1" style="display: flex;">  
+            <div class="box1"> 
+            </div>  
+            <div class="right-box">  
+                <div class="image-container">
+                    <img src="../src/public/image/people/夫差画像.png" alt="夫差" class="fade-in" data-info="春秋时期吴国的国君，名夫差，父亲为吴王阖闾。夫差在位期间（公元前495年－公元前473年），吴国达到了顶峰。他成功击败了楚国，扩张了领土，并且建立了强大的海军。但由于过于自信和骄傲，最终导致他对越国的战争失利，被越王勾践俘获，后来自杀，吴国也随之衰落。" data-audio="../src/public/media/voice/婉转古风轻音乐.mp3">
+                    <img src="../src/public/image/people/魏惠王.png" alt="魏惠王" class="fade-in" data-info="战国时期魏国的君主，名魏昭王。他在位期间（公元前369年－公元前319年），魏国国力强盛。魏惠王采纳了平原君赵阮的建议，推行“商鞅变法”，发展农业和商业，加强军队。通过多次对外战争，魏国成为战国七雄之一，但也因此引发了多次战争，最终在历史上留下了深刻的印记。" data-audio="../src/public/media/voice/婉转古风轻音乐.mp3">
+                    <img src="../src/public/image/people/吴泰伯.png" alt="吴泰伯" class="fade-in" data-info="吴国的开国君主，名泰伯，是吴国的创始人之一。传说他和弟弟阖闾为了保护百姓，退位给阖闾的儿子，甘愿隐退。他被视为仁义之君，重视民生，提倡农业和手工业的生产。吴泰伯的精神和事迹在后世受到尊崇，成为理想君主的象征。" data-audio="../src/public/media/voice/婉转古风轻音乐.mp3">
+                    <img src="../src/public/image/people/伍子胥.png" alt="伍子胥" class="fade-in" data-info="春秋时期吴国的著名政治家和军事将领，名伍子胥。他因父亲被楚国杀害而发誓报仇，投奔吴国，成为吴王夫差的重要谋士。他曾多次出征楚国，取得显著的胜利。伍子胥以智勇双全著称，后来因权臣的诬陷被杀，成为悲剧英雄，其事迹在后世广为传颂。" data-audio="../src/public/media/voice/婉转古风轻音乐.mp3">
+                    <img src="../src/public/image/people/楚灵王画像.png" alt="楚灵王" class="fade-in" data-info="战国时期楚国的国君，名楚灵王，统治期间（公元前540年－公元前529年），楚国文化和经济繁荣。他以宽厚大度的性格著称，曾任用贤才如屈原，推动文化的发展。他的统治让楚国成为当时强大的国家之一，但由于后期的昏庸和任人唯亲，最终导致国家的衰弱。" data-audio="../src/public/media/voice/婉转古风轻音乐.mp3">
+                </div> 
+            </div>  
+        </div>
+
+        <!-- 秦朝 -->
+        <div class="hist" id="hist2">  
+            <div class="box2">  
+            </div>  
+            <div class="right-box">  
+                <div class="image-container">
+                    <img src="../src/public/image/people/秦始皇.png" alt="秦始皇" class="fade-in" data-info="中国历史上第一位皇帝，名嬴政，统一六国后成为秦朝的皇帝（公元前221年－公元前210年）。他实施了一系列重大改革，推行中央集权，统一度量衡、货币和文字。修建了万里长征，增强了国家的防御能力。他的统治虽促成了国家的统一，但也因残酷的法治和对思想的压制而饱受争议。" data-audio="../src/public/media/voice/婉转古风轻音乐.mp3">
+                    <img src="../src/public/image/people/杨焉.png" alt="杨焉" class="fade-in" data-info="西汉时期的政治家，担任过太尉和丞相等职务。他以刚直不阿和忠诚著称，敢于谏言，反对权臣的专权。他的直言和清廉赢得了汉武帝的信任，对国家的政治环境产生了积极影响。" data-audio="../src/public/media/voice/婉转古风轻音乐.mp3">
+                    <img src="../src/public/image/people/王梁.png" alt="王梁" class="fade-in" data-info="汉朝的著名政治家，曾任丞相。他以清廉正直和治理能力闻名，主张宽厚治国，注重民生，对当时的政策和法律改革有重要贡献。" data-audio="../src/public/media/voice/婉转古风轻音乐.mp3">
+                    <img src="../src/public/image/people/刘濞.png" alt="刘濞" class="fade-in" data-info="西汉时期的政治家和军事将领，曾参与平定叛乱和对外征伐。他因出色的军事才能而受到重用，为国家的边疆稳定作出贡献。" data-audio="../src/public/media/voice/婉转古风轻音乐.mp3">
+                    <img src="../src/public/image/people/王吴.png" alt="王吴" class="fade-in" data-info="西汉时期的政治家，曾任朝廷的重要职务。他在朝中颇有威望，参与多项政策的制定，对汉朝的繁荣与发展起到了积极的推动作用。" data-audio="../src/public/media/voice/婉转古风轻音乐.mp3">
+                </div> 
+            </div>  
+        </div>
+
+        <!-- 隋唐 -->
+        <div class="hist" id="hist3">  
+            <div class="box3">  
+            </div>  
+            <div class="right-box">  
+                <div class="image-container">
+                    <img src="../src/public/image/people/杨广画像.png" alt="杨广"  class="fade-in" data-info="隋朝第二位皇帝（公元604年－公元618年），以奢华和暴政著称。他推动大运河的建设，促进了南北经济的联系，但因过度征税和徭役引发民众不满，最终导致隋朝灭亡。他的统治在历史上备受争议，既有成就也有过失。" data-audio="../src/public/media/voice/婉转古风轻音乐.mp3">
+                    <img src="../src/public/image/people/刘晏画像.png" alt="刘晏"  class="fade-in" data-info="隋朝的著名将领，曾参与多次重要战役，以勇猛著称。刘晏在隋炀帝统治时期，因其卓越的军事才能和对国家的忠诚而受到重用，曾多次获得荣誉。" data-audio="../src/public/media/voice/婉转古风轻音乐.mp3">
+                    <img src="../src/public/image/people/宇文恺.png" alt="宇文恺" class="fade-in" data-info="隋朝的政治家，以才智和谋略闻名。他在隋文帝杨坚的支持下，推动了国家的政治和经济改革，为隋朝的统一和发展作出了贡献。" data-audio="../src/public/media/voice/婉转古风轻音乐.mp3">
+                    <img src="../src/public/image/people/杨坚.png" alt="杨坚" class="fade-in" data-info="隋朝的开国皇帝，因统一南北朝而著称（公元581年－公元604年）。他的统治时期，经济繁荣，政治稳定，进行了许多重要的改革，如编纂法典、推行科举制等，对后世产生深远影响。" data-audio="../src/public/media/voice/婉转古风轻音乐.mp3">
+                    <img src="../src/public/image/people/薛胄.png" alt="薛胄" class="fade-in" data-info="隋朝的政治家和学者，以其学识和才能受到重视。他曾担任重要的官职，在推动国家政策和文化发展方面做出了积极贡献。" data-audio="../src/public/media/voice/婉转古风轻音乐.mp3">
+                </div> 
+            </div>  
+        </div>
+
+        <!-- 宋元 -->
+        <div class="hist" id="hist4">  
+            <div class="box4">  
+            </div>  
+            <div class="right-box">  
+                <div class="image-container">
+                    <img src="../src/public/image/people/成寻.png" alt="成寻" class="fade-in" data-info="北宋的文学家和政治家，生于公元1070年，擅长诗词和文学创作，曾任职于朝廷，对当时的文化氛围产生了积极的影响。" data-audio="../src/public/media/voice/婉转古风轻音乐.mp3">
+                    <img src="../src/public/image/people/郭守敬画像.png" alt="郭守敬" class="fade-in" data-info="北宋时期的天文学家和数学家，生于公元1231年。他设计了“授时历”，并对天文观测有重大贡献。他的研究推动了天文学的发展，影响深远。" data-audio="../src/public/media/voice/婉转古风轻音乐.mp3">
+                    <img src="../src/public/image/people/沈括画像.png" alt="沈括" class="fade-in" data-info="北宋著名的科学家、政治家和文学家，生于公元1031年。他的《梦溪笔谈》汇集了他的科学研究和实践经验，对天文学、地理学、物理学等领域都有深入的探讨，标志着中国古代科学的辉煌成就。" data-audio="../src/public/media/voice/婉转古风轻音乐.mp3">
+                    <img src="../src/public/image/people/李溥.png" alt="李溥" class="fade-in" data-info="北宋的政治家，以清正廉洁著称。他在朝中担任多项要职，致力于推动国家的政治和经济改革，为社会的稳定和繁荣贡献了力量。" data-audio="../src/public/media/voice/婉转古风轻音乐.mp3">
+                    <img src="../src/public/image/people/苏辙.png" alt="苏辙" class="fade-in" data-info="北宋著名的文学家、政治家，是苏轼的弟弟。以文章见长，善于诗词、散文和议论，对宋代文人的风格与成就有重要影响。" data-audio="../src/public/media/voice/婉转古风轻音乐.mp3">
+                </div> 
+            </div>  
+        </div>
+
+        <!-- 明清 -->
+        <div class="hist" id="hist5">  
+            <div class="box5">  
+            </div> 
+            <div class="right-box">
+                <div class="image-container">
+                    <img src="../src/public/image/people/宋礼画像.png" alt="王吴" class="fade-in" data-info="明代的政治家，以清廉正直闻名。他曾担任多个重要职务，积极参与政治改革，并推动了明代的法治与治理能力的提升。" data-audio="../src/public/media/voice/婉转古风轻音乐.mp3">
+                    <img src="../src/public/image/people/陈瑄画像.png" alt="王吴" class="fade-in" data-info="明代的学者，著有多部学术著作，以精湛的学识和丰富的文化底蕴受到当时社会的广泛尊重。他在科学和文化的传承方面做出了重要贡献。" data-audio="../src/public/media/voice/婉转古风轻音乐.mp3">
+                    <img src="../src/public/image/people/靳辅画像.png" alt="王吴" class="fade-in" data-info="明代的军事将领，曾参与多次边疆的军事行动，以勇猛和智慧著称。他的军事才能为国家的边防稳定和发展做出了重要贡献。" data-audio="../src/public/media/voice/婉转古风轻音乐.mp3">
+                    <img src="../src/public/image/people/陈道亨.png" alt="王吴" class="fade-in" data-info="明代的政治家，以治理能力和推动改革著称。他的政策不仅关注国家的经济发展，也重视社会的民生问题，对明朝的繁荣发展产生了积极影响。" data-audio="../src/public/media/voice/婉转古风轻音乐.mp3">
+                    <img src="../src/public/image/people/郭商友.png" alt="王吴" class="fade-in" data-info="清代的学者和官员，注重教育和文化的传承，曾在多个重要职务上为国家的发展和进步贡献。" data-audio="../src/public/media/voice/婉转古风轻音乐.mp3">
+                </div> 
+            </div>  
+        </div>
+    </div>  
+    
+    <!-- 滑块条 -->
+    <div class="scroll-bar">
+        <div class="slider" id="slider">
+            <div class="slider-btn" id="sliderBtn"><img src="../src/public/image/鼠标船.PNG" alt="" style="width: 80px;"></div>
+            <div class="slider-node" style="left: 0;">先秦•</div>
+            <div class="slider-node" style="left: 25%;">秦朝•</div>
+            <div class="slider-node" style="left: 50%;">隋唐•</div>
+            <div class="slider-node" style="left: 75%;">宋元•</div>
+            <div class="slider-node" style="left: 100%;">明清•</div>
+        </div>
+        <div style="width: 100%;height: 20px;background-color: rgba(149, 243, 243, 0.697);"></div>
+    </div>
+    <!-- 模态窗口 -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <img id="modal-img" src="" alt="Modal Image" style="border-radius: 50%;">
+            <audio id="modal-audio" src="" preload="auto"></audio>
+            <span class="close">&times;</span>
+            <p id="modal-name"></p>
+            <hr>
+            <p id="modal-info"></p>
+        </div>
+    </div>
+    <script>
+
+       document.addEventListener("DOMContentLoaded", function() {
+            var images = document.querySelectorAll('.image-container img.fade-in');
+            var slider = document.getElementById('slider');
+            var sliderBtn = document.getElementById('sliderBtn');
+            var sliderWidth = slider.offsetWidth;
+            var sliderBtnWidth = sliderBtn.offsetWidth;
+            var nodes = document.querySelectorAll('.slider-node');
+            var modal = document.getElementById("myModal");
+            // var span = document.getElementsByClassName("close")[0];
+            var modalInfo = document.getElementById("modal-info");
+            var modalImg = document.getElementById("modal-img");
+            var modalAudio = document.getElementById("modal-audio");
+            var closeBtn = document.querySelector(".close");
+
+            // 显示第一个 hist 内容
+            document.getElementById('hist1').style.display = 'flex';
+            document.getElementById('hist2').style.display = 'none';
+            document.getElementById('hist3').style.display = 'none';
+            document.getElementById('hist4').style.display = 'none';
+            document.getElementById('hist5').style.display = 'none';
+
+            images.forEach((img, index) => {
+                setTimeout(() => {
+                    img.style.opacity = 1;
+                }, index * 400); // 每张图片延迟400毫秒显示
+            });
+
+            function updateSliderPosition(percentage) {
+                sliderBtn.style.left = percentage + '%';
+            }
+
+            sliderBtn.addEventListener('mousedown', function(event) {
+                event.preventDefault();
+                document.addEventListener('mousemove', handleMouseMove);
+                document.addEventListener('mouseup', handleMouseUp);
+            });
+
+            function handleMouseMove(event) {
+                let newLeft = event.clientX - slider.getBoundingClientRect().left - sliderBtnWidth / 2;
+                newLeft = Math.max(0, Math.min(newLeft, sliderWidth - sliderBtnWidth));
+                let percentage = (newLeft / sliderWidth) * 100;
+                let roundedPercentage = Math.round(percentage / 25) * 25; // 四舍五入到最近的25%
+                sliderBtn.style.left = roundedPercentage + '%';
+                let newIndex = Math.round((roundedPercentage / 100) * (nodes.length - 1));
+                displayContentForNode(newIndex);
+            }
+
+            function handleMouseUp() {
+                document.removeEventListener('mousemove', handleMouseMove);
+                document.removeEventListener('mouseup', handleMouseUp);
+            }
+
+            function displayContentForNode(nodeIndex) {
+                console.log("Displaying content for node: ", nodeIndex + 1);
+                // 隐藏所有 hist 内容
+                var histElements = document.querySelectorAll('.hist');
+                histElements.forEach(el => {
+                    el.style.display = 'none';
+                });
+                // 显示对应索引的 hist 内容
+                var activeHist = document.getElementById('hist' + (nodeIndex + 1));
+                activeHist.style.display = 'flex';
+            }
+
+            // 为每个 slider-node 添加点击事件
+            nodes.forEach((node, index) => {
+                node.addEventListener('click', function() {
+                    let percentage = index * 25; // 计算对应的百分比位置
+                    sliderBtn.style.left = percentage + '%';
+                    updateSliderPosition(percentage);
+                    displayContentForNode(index);
+                });
+            });
+
+            // 初始化滑动条位置
+            updateSliderPosition(0);
+
+            // 添加点击事件，弹出模态窗口
+            images.forEach(img => {
+                img.addEventListener('click', function(event) {
+                    var info = this.getAttribute('data-info');
+                    var src = this.src;
+                    var audioSrc = this.getAttribute('data-audio');
+                    var altText = this.alt;
+                    modalInfo.innerHTML = info;
+                    modalImg.src = src;
+                    modalAudio.src = audioSrc;
+                    modalAudio.play();
+                    document.getElementById("modal-name").innerHTML = altText; 
+                    modal.style.display = "block";
+                });
+            });
+
+            // 点击 <span> (x) 关闭模态窗口
+            closeBtn.onclick = function() {
+                modal.style.display = "none";
+                modalAudio.pause();
+                modalAudio.currentTime = 0;
+            }
+
+            // 点击模态窗口外的区域关闭模态窗口
+            modal.onclick = function(event) {
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                    modalAudio.pause();
+                    modalAudio.currentTime = 0;
+                }
+            }
+
+            // 右侧图片飘动
+            function applyRandomFloat() {
+                var images = document.querySelectorAll('.image-container img.fade-in');
+                images.forEach(img => {
+                    // 生成随机的动画参数
+                    var floatDistance = 5 + Math.random() * 10; // 飘动距离
+                    var floatDuration = 3 + Math.random() * 7; // 飘动周期
+                    var floatDelay = Math.random() * 5; // 动画延迟
+
+                    // 生成随机的飘动方向和距离
+                    var floatY = 'translateY(' + (Math.random() > 0.5 ? '+' : '-') + Math.floor(Math.random() * floatDistance) + 'px)';
+                    var floatX = 'translateX(' + (Math.random() > 0.5 ? '+' : '-') + Math.floor(Math.random() * floatDistance) + 'px)';
+
+                    // 应用动画到图片
+                    img.style.animation = 'float ' + floatDuration + 's ease-in-out infinite ' + floatDelay + 's';
+                    img.style.transform = floatX + ' ' + floatY;
+                });
+            }
+            applyRandomFloat(); // 应用随机飘动效果
+
+        });
+    </script>
+</body>
+</html>
