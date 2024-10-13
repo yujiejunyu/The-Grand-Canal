@@ -22,7 +22,7 @@
             nav {  
                 background: #fff;  
                 border-radius: 5px; /* 修改为更常见的圆角大小 */  
-                padding: 20px;  
+                padding: 5px;  
                 box-shadow: 0 25px 20px -20px rgba(0, 0, 0, 0.4);  
                 width: 100px;  
                 opacity: 0.8;  
@@ -45,7 +45,7 @@
                 padding: 0px 10px; /* 调整内边距以适应垂直布局 */  
                 font-size: 18px;  
                 font-weight: 500;  
-                color: #777;  
+                color: #868383;  
                 cursor: pointer;  
                 position: relative;  
                 z-index: 2;  
@@ -55,20 +55,18 @@
                 animation-fill-mode: forwards; /* 保持动画结束时的状态 */ 
             }  
             nav ul li:nth-child(2n){
-                width: 12px;
+                width: 20px;
                 height: 1px;
-                background-color: #666;
+                background-color: #bbb;
 
             }
             nav ul li:hover {  
                 color: #000;  
-                font-size: 20px;
-                img{
-                    width: 38px;
-                    height: 24px;
-                }
             } 
-             
+            nav ul li:hover img {
+                transform: scale(1.2); /* 放大20% */
+                transition: transform 0.3s ease; /* 平滑过渡效果 */
+            }
             @keyframes slideDown {  
                 from {  
                     transform: translateY(-100%); /* 从上方完全不可见的位置开始 */  
@@ -121,27 +119,32 @@
                     opacity: 0;  
                 }  
             }
-            img{
-                width: 36px;
-                height: 20px;
+            p{
+                font-size: 15px;
             }
     
+            nav ul li img {
+                width: 30px;
+                height: 25px;
+                display: block;
+                margin: 0 auto 5px auto;  
+            }
         </style>  
     </head>  
     <body>  
         <div class="container">  
             <nav>
-                <div><img src="../../public/image/商船.png" alt=""></div>  
+                <div><img src="../src/public/image/logo.png" style="width: 70x;height:65px;"></div>  
                 <ul>  
-                    <li href="#"><img src="../../public/image/商船.png" alt="">首页</li>  
+                    <li href="#"><img src="../src/public/image/首页.png"><p style="text-align: center;">首页</p><p style="font-size: 11px;">home</p></li>  
                     <li></li>
-                    <li href="#"><img src="../../public/image/商船.png" alt="">历史</li>  
+                    <li href="#"><img src="../src/public/image/历史.png"><p style="text-align: center;">历史</p><p style="font-size: 11px;">history</p></li>  
                     <li></li>
-                    <li href="#"><img src="../../public/image/商船.png" alt="">文化</li> 
+                    <li href="#"><img src="../src/public/image/文化.png"><p style="text-align: center;">文化</p><p style="font-size: 11px;">culture</p></li> 
                     <li></li>
-                    <li href="#"><img src="../../public/image/商船.png" alt="">文创</li>  
+                    <li href="#"><img src="../src/public/image/文创.png"><p style="text-align: center;">文创</p><p style="font-size: 11px;">cultural</p></li>  
                     <li></li>
-                    <li href="#"><img src="../../public/image/商船.png" alt="">娱乐</li> 
+                    <li href="#"><img src="../src/public/image/娱乐.png"><p style="text-align: center;">娱乐</p><p style="font-size: 11px;">recreation</p></li>  
                     <li></li> 
                 </ul>  
                 <div><a href="javascript:void(0);" onclick="toggleNav()"><i id="nav-icon" class="fa fa-angle-double-up"></i></a></div>
