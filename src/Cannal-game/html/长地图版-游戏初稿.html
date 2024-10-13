@@ -5,7 +5,7 @@
     <title>大运河</title>
     <!-- 引入 Roboto 字体，但Google Chorome无法正常显示 -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
-    <link href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/src/public/css/明信片.css">
     <link rel="stylesheet" href="/src/public/css/music.css">
     <link rel="stylesheet" href="/src/public/css/model.css">
@@ -58,19 +58,18 @@
         /* 骰子图片 */
         #dice {
             position: absolute;
-            bottom: 20px;
-            left: 20px;
-            width: 150px;
-            height: 150px;
+            bottom: -4px;
+            left: 0px;
+            width: 100px;
+            height: 100px;
             cursor: pointer;
         }
 
         #yu_dice2 {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            width: 150px;
-            height: 150px;
+            bottom: -4px;
+            left: 0px;
+            width: 100px;
+            height: 100px;
             cursor: pointer;
         }
 
@@ -410,6 +409,26 @@
             top: 80px;
             right: 20px;
         }
+        .dice{
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.76);
+            position: absolute;
+            bottom: 20px;
+            left: 30px;
+            border: 1px solid #8B4513; /* 极细的褐色边框 */
+        }
+        .yu_dice2{
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.77);
+            position: absolute;
+            bottom: 20px;
+            right: 30px;
+            border: 1px solid #8B4513; /* 极细的褐色边框 */
+        }
     </style>
     <!--    <link rel="stylesheet" href="../css/明信片.css">-->
 </head>
@@ -467,10 +486,14 @@ l116-27c0-25-31-22,0-25s53-34,53-34l-32-50l-16-32c16-37,70-87,70-87"
 
 <!-- 骰子随机数显示 -->
 <div id="message"></div>
-<img id="dice" src="/src/public/image/0.gif" alt="静止骰子">
-
+<div class="dice">
+    <img id="dice" src="/src/public/image/0.gif" alt="静止骰子">
+</div>
 <div id="yu_message2"></div>
-<img id="yu_dice2" src="/src/public/image/0.gif" alt="静止骰子">
+<div class="yu_dice2">
+    <img id="yu_dice2" src="/src/public/image/0.gif" alt="静止骰子">
+</div>
+
 
 <div id="center-line"></div>
 
