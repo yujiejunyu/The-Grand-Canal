@@ -36,6 +36,10 @@ function openAllCards() {
     });
     const overlay = document.querySelector('.overlay');
     overlay.style.display = 'none';
+/**
+ * The function `openAllCards` removes the 'flipped' class from all cards and hides the overlay
+ * element.
+ */
 }
 
 // 添加点击事件监听器到每张卡片的前面  

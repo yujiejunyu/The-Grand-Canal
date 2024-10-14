@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/src/public/css/music.css">
     <link rel="stylesheet" href="/src/public/css/model.css">
     <link rel="stylesheet" href="/src/public/css/nav.css">
-    <link rel="icon" href="/image/logo.png">
+    <link rel="icon" href="/src/public/image/logo.png">
     <style>
         body, html {
             margin: 0;
@@ -23,6 +23,10 @@
         body {
             /*overflow: scroll;*/
             height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
         }
 
         /* SVG 铺满 */
@@ -409,7 +413,8 @@
             top: 80px;
             right: 20px;
         }
-        .dice{
+
+        .dice {
             width: 100px;
             height: 100px;
             border-radius: 50%;
@@ -419,7 +424,8 @@
             left: 30px;
             border: 1px solid #8B4513; /* 极细的褐色边框 */
         }
-        .yu_dice2{
+
+        .yu_dice2 {
             width: 100px;
             height: 100px;
             border-radius: 50%;
@@ -439,7 +445,7 @@
 <audio id="audioClip4" src="/src/public/media/voice/游戏中的“提示”音.wav" preload="auto"></audio>
 <!--<audio id="audioClip5" src="" autoplay="autoplay" loop="loop" muted="muted"></audio>-->
 <audio id="audioClip5" autoplay>
-    <source src="/src/public/media/voice/背景音乐.MP3"/>
+    <source src="/src/public/media/voice/背景音乐.MP3" muted="muted"/>
 </audio>
 <!--<audio autoplay="autoplay" controls="controls" loop="loop" src="../media/墨水画中国风配乐.wav">  你的浏览器版本太低，不支持audio标签  </audio>-->
 <body id="container">
@@ -458,23 +464,35 @@ l116-27c0-25-31-22,0-25s53-34,53-34l-32-50l-16-32c16-37,70-87,70-87"
     <nav>
         <div><img src="/src/public/image/logo.png" style="width: 70px;height:65px;"></div>
         <ul>
-            <li href="#"><img src="/src/public/image/首页.png">
+            <li>
+                <a href="/src/Cannal-index/index.html" target="_blank">
+                    <img src="/src/public/image/首页.png">
+                </a>
                 <p style="text-align: center;">首页</p>
                 <p style="font-size: 11px;">home</p></li>
             <li></li>
-            <li href="src/Cannal-history/Canal_history.html"><img src="/src/public/image/历史.png">
+            <li><a href="/src/Cannal-history/Canal_history.html" target="_blank">
+                <img src="/src/public/image/历史.png">
+            </a>
                 <p style="text-align: center;">历史</p>
                 <p style="font-size: 11px;">history</p></li>
             <li></li>
-            <li href="src/Cannal-culture/culture.html"><img src="/src/public/image/文化.png">
+            <li><a href="/src/Cannal-culture/culture.html" target="_blank">
+                <img src="/src/public/image/文化.png">
+            </a>
                 <p style="text-align: center;">文化</p>
                 <p style="font-size: 11px;">culture</p></li>
             <li></li>
-            <li href="#"><img src="/src/public/image/文创.png">
+            <li>
+                <a href="/src/Cannal-creativity/cultural.html" target="_blank">
+                    <img src="/src/public/image/文创.png">
+                </a>
                 <p style="text-align: center;">文创</p>
                 <p style="font-size: 11px;">cultural</p></li>
             <li></li>
-            <li href="/src/Cannal-game/html/长地图版-游戏初稿.html"><img src="/src/public/image/娱乐.png">
+            <li><a href="/src/Cannal-game/html/长地图版-游戏初稿.html">
+                <img src="/src/public/image/娱乐.png">
+            </a>
                 <p style="text-align: center;">娱乐</p>
                 <p style="font-size: 11px;">recreation</p></li>
             <li></li>
@@ -761,6 +779,7 @@ l116-27c0-25-31-22,0-25s53-34,53-34l-32-50l-16-32c16-37,70-87,70-87"
             bgContainer.scrollLeft += event.deltaY;
         });
     }
+
 
     // 骰子
     const dice = document.getElementById('dice');
@@ -1154,11 +1173,17 @@ l116-27c0-25-31-22,0-25s53-34,53-34l-32-50l-16-32c16-37,70-87,70-87"
 
         // 设置对话框的透明度为1
         dialog.style.opacity = '1';
-
+        
         // 计算对话框位置
         const boatRect = boatElement.getBoundingClientRect();
-        dialog.style.left = `${boatRect.left + 20}px`;  // 调整位置
-        dialog.style.top = `${boatRect.top - 200}px`;  // 调整位置
+        if(nodeIndex > 27){
+            dialog.style.left = `${boatRect.left + 20}px`;  // 调整位置
+            dialog.style.top = `${boatRect.bottom + 10}px`;  // 调整位置
+        }else{
+            dialog.style.left = `${boatRect.left + 20}px`;  // 调整位置
+            dialog.style.top = `${boatRect.top - 200}px`;  // 调整位置
+        }
+        
     }
 
     function showNodeDialog(nodeIndex, boatElement) {
@@ -1173,8 +1198,13 @@ l116-27c0-25-31-22,0-25s53-34,53-34l-32-50l-16-32c16-37,70-87,70-87"
 
         // 计算对话框位置
         const boatRect = boatElement.getBoundingClientRect();
-        dialog.style.left = `${boatRect.left + 20}px`;  // 调整位置
-        dialog.style.top = `${boatRect.top - 200}px`;  // 调整位置
+        if(nodeIndex > 27){
+            dialog.style.left = `${boatRect.left + 20}px`;  // 调整位置
+            dialog.style.top = `${boatRect.bottom + 10}px`;  // 调整位置
+        }else{
+            dialog.style.left = `${boatRect.left + 20}px`;  // 调整位置
+            dialog.style.top = `${boatRect.top - 200}px`;  // 调整位置
+        }
     }
 
     // 检查船只是否在可视区域内
@@ -1382,17 +1412,18 @@ l116-27c0-25-31-22,0-25s53-34,53-34l-32-50l-16-32c16-37,70-87,70-87"
 
     function playAudio(index) {
         audios[index].play();
-        // 检查是否已经自动播放
-        if (audios[index].play) {
-            // 取消静音
-            audios[index].muted = false;
-        }
+        // // 检查是否已经自动播放
+        // if (audios[index].play) {
+        //     // 取消静音
+        //     audios[index].muted = false;
+        // }
     }
 
     // 停止播放音频
     function stopAudio(index) {
         playAudio(4)
         audios[index].pause();
+        audios[index].muted = true
         audios[index].currentTime = 0; // 重置音频播放位置
     }
 
@@ -1426,24 +1457,6 @@ l116-27c0-25-31-22,0-25s53-34,53-34l-32-50l-16-32c16-37,70-87,70-87"
 
     // 页面加载时，确保所有模态框都是隐藏的，并且船停在节点0
     window.onload = function () {
-        // 通过计数器的方式，产生网页交互的作用，从而确保背景音乐不会被浏览器阻止自动播放
-        // setInterval(function (){
-        //     // 播放背景音乐
-        //     audio.play();
-        //     // 检查是否已经自动播放
-        //     if (audio.play) {
-        //         // 取消静音
-        //         audio.muted = false;
-        //     }
-        // }, 0.1);
-
-        // modals.forEach(function (modal) {
-        //     if (modal) {
-        //         modal.style.display = 'none'; // 确保所有模态框初始时是隐藏的
-        //     }
-        // });
-
-
         // 给模态框添加动画效果
         modal.classList.add('show');
         // 显示教程模态框

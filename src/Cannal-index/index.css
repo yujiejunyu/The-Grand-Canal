@@ -1,0 +1,217 @@
+
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.parther {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    height: 90vh;
+    overflow: hidden;
+    display: flex;
+    float: left;
+    z-index: 50;
+    object-fit: contain;
+}
+
+.container1 {
+    position: relative;
+    width: 100%;
+    height: 90vh;
+    overflow: hidden;
+    display: flex;
+    z-index: 40;
+    object-fit: contain;
+}
+
+.image-wrapper1 {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+.image-wrapper2 {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+.image-wrapper1 img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-wrapper2 img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.drag-button {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: blue;
+    cursor: pointer;
+    bottom: 30px;
+}
+
+.building {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    z-index: 11;
+}
+
+.building button {
+    border: none;
+    background-color: transparent;
+}
+
+/* 模态框的样式 */
+.back_modal {
+    display: none; /* 默认隐藏 */
+    position: fixed;
+    z-index: 120;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    /* opacity: 0; /* 初始透明度为 0 */
+    /* transition: opacity 0.5s ease; */
+}
+
+.back_modal.show {
+    display: block;
+    /* opacity: 1; 显示时透明度为 1 */
+}
+.popup {
+    /*display: none;*/
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 10px;
+    z-index: 100;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.popup p {
+    text-align: center;
+}
+
+.close-button {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/*闪烁*/
+.building-container {
+    width: 50px;
+    height: 100px;
+}
+
+button {
+    position: relative;
+    z-index: 100;
+}
+
+.blinking-circle {
+    display: flex;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #d3c1c1;
+    /*animation: blink 1s infinite;*/
+    z-index: 100;
+}
+
+.blinking-circle1 {
+    display: flex;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #d39f9f;
+    animation: blink 1s infinite;
+    z-index: 100;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.blinking-circle2 {
+    display: flex;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #c26e6e;
+    animation: blink 1s infinite;
+    z-index: 100;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.blinking-circle button {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: none!important;
+}
+.water{
+    position: absolute;
+    width: 100%;
+    height: 30px;
+    bottom: 0;
+    background: cornflowerblue;
+}

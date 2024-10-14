@@ -6,214 +6,260 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>文化界面</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/src/public/css/culture.css">
+    <link href="https://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/src/Cannal-culture/css/culture.css">
+    <link rel="stylesheet" href="/src/public/css/nav.css"></link>
 </head>
 
 <body>
 
-    <div class="container">
-
-        <!-- 三个板块显示的内容 -->
-        <!-- 诗词 -->
-
-        <div id="poetry">
-            <!-- 灯笼 -->
-            <div class="lantern lantern-left">
-                <div class="lantern-inner">
-                    <img src="/src/public/image/lantern.PNG" alt="Left Lantern">
-                    <div class="lantern-message" style="display: none;">Happy New Year!</div>
-                </div>
+<div class="container1">
+    <!-- 三个板块显示的内容 -->
+    <!-- 诗词 -->
+    <div id="poetry">
+        <!-- 灯笼 -->
+        <div class="lantern lantern-left">
+            <div class="lantern-inner">
+                <img src="/src/public/image/lantern.PNG" alt="Left Lantern">
+                <div class="lantern-message" style="display: none;">Happy New Year!</div>
             </div>
-            <div class="lantern lantern-right">
-                <div class="lantern-inner">
-                    <img src="/src/public/image/lantern2.PNG" alt="Right Lantern">
-                    <div class="lantern-message" style="display: none;">Merry Christmas!</div>
-                </div>
-            </div>
-            <!-- 灯笼完成 -->
-            <!-- 烟花 -->
-            <img src="/src/public/image/fire.GIF" class="firework-left">
-            <img src="/src/public/image/fire2.GIF" class="firework-right">
-            <div class="intro">
-                <h1>探索运河的魅力</h1>
-                <h4>诗词界面展大运河风采，古韵悠长颂千年漕运，历史长河波光粼粼，文化瑰宝熠熠生辉，尽显华夏文明之辉煌。<br>
-                    点击卡片，查看诗词。
-
-                </h4>
-            </div>
-            <div class="overlay" onclick="openAllCards()"></div>
-            <div class="poetry-content">
-                <!-- 第一张卡片 -->
-                <div class="card" id="card1">
-                    <div class="card-front">
-                        <img src="/src/public/image/泊船瓜洲.jpeg" alt="古诗词图片2">
-
-                    </div>
-                    <div class="card-back">
-                        <div class="card-content">
-                            <h2>泊船瓜洲</h2>
-                            <p>王安石</p>
-                            <p>
-                                京口瓜洲一水间，<br>
-                                钟山只隔数重山。<br>
-                                春风又绿江南岸，<br>
-                                明月何时照我还。
-                            </p>
-                            <button class="cultural-button" onclick="openCard('card1')">收起</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- 第二张卡片 -->
-                <div class="card" id="card2">
-                    <div class="card-front">
-                        <img src="/src/public/image/枫桥夜泊.jpeg" alt="古诗词图片2">
-                    </div>
-                    <div class="card-back">
-                        <div class="card-content">
-                            <h2>枫桥夜泊</h2>
-                            <p>张继</p>
-                            <p>
-                                月落乌啼霜满天，<br>
-                                江枫渔火对愁眠。<br>
-                                姑苏城外寒山寺，<br>
-                                夜半钟声到客船。
-                            </p>
-                            <button class="cultural-button" onclick="openCard('card2')">收起</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- 第三张卡片 -->
-                <div class="card" id="card3">
-                    <div class="card-front">
-                        <img src="/src/public/image/横江词.jpeg" alt="古诗词图片3">
-                    </div>
-                    <div class="card-back">
-                        <div class="card-content">
-                            <h2>横江词</h2>
-                            <p>李白</p>
-                            <p>
-                                海神来过恶风回，<br>
-                                浪打天门石壁开。<br>
-                                浙江八月何如此？<br>
-                                涛似连山喷雪来！
-                            </p>
-                            <button class="cultural-button" onclick="openCard('card3')">收起</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
-        <!-- 音乐 -->
-        <div id="music" style="display: none;" class="music">
-
-            <div class="intro">
-                <h1>探索运河的魅力</h1>
-                <h4>悠扬旋律传千古，戏曲舞台展风华，曲调婉转叙传奇，文化瑰宝熠熠生辉，尽显华夏艺术之辉煌。</h4>
+        <div class="lantern lantern-right">
+            <div class="lantern-inner">
+                <img src="/src/public/image/lantern2.PNG" alt="Right Lantern">
+                <div class="lantern-message" style="display: none;">Merry Christmas!</div>
             </div>
-            <div class="Music_intro">
-                <div class="Music_Showcase Music_Showcase1">
-                    <h4>苏州评弹</h4>
-                    <div class="Music_Description">
-                        苏州评弹是起源于大运河苏州段的一种传统说唱艺术，包含了评话和弹词两种形式。作为集音乐、文学和表演于一体的艺术形式，评弹以轻柔的旋律、精细的语言描述和深刻的故事情节而闻名，描绘了运河沿岸的民生百态。苏州因其文化底蕴深厚，成为评弹艺术的发源地和传播中心。
-                    </div>
-                </div>
-                <div class="Music_Showcase Music_Showcase2">
-                    <h4>淮扬音乐</h4>
-                    <div class="Music_Description">
-                        淮扬音乐是大运河淮安、扬州段的重要民间音乐形式。淮扬地区是大运河文化的精髓地带，音乐融合了淮河流域和扬州地区的风格，表现出柔和、细腻的艺术特质。由于大运河的贯通，淮扬音乐在运河沿线传播开来，逐渐形成了独具特色的音乐风格。
-                    </div>
-                </div>
-                <div class="Music_Showcase Music_Showcase3">
-                    <h4>京剧</h4>
-                    <div class="Music_Description">
-                        京剧作为中国最具代表性的戏曲形式，在大运河流域的发展历史悠久。大运河的开通促进了南北文化的交流，京剧在清代由北京传播至大运河沿线的各大城市。特别是在运河中段和北段，京剧通过水路运输和商业往来，成为沿线城市的重要文化娱乐形式。
-                    </div>
-                </div>
-                <div class="Music_Showcase Music_Showcase4">
-                    <h4>昆曲</h4>
-                    <div class="Music_Description">
-                        昆曲被誉为“百戏之母”，是大运河流域最具影响力的戏曲形式之一，发源于江苏昆山，紧邻大运河。昆曲历史悠久，早在明代时期就已经广泛流行于大运河沿线的城市，并成为上层社会的重要文化娱乐形式。昆曲的唱腔婉转、曲调悠扬，音乐与诗歌相结合，艺术表现力极强，深受大众喜爱。
-                    </div>
-                </div>
-
-            </div>
-
         </div>
-        <!-- 美食 -->
-        <div id="delicacy" style="display: none;">
-            <div class="intro">
-                <h1>探索运河的韵味</h1>
-                <h4>沿京杭大运河，美食如画卷缓缓展开：苏州的松鼠桂鱼跃然盘上，北京的炙子烤肉烟火气中藏历史韵味，一路品味，尽揽千年运河的味觉盛宴。</h4>
+        <!-- 灯笼完成 -->
+        <!-- 烟花 -->
+        <img src="/src/public/image/fire.GIF" class="firework-left">
+        <img src="/src/public/image/fire2.GIF" class="firework-right">
+        <div class="intro">
+            <h1>探索运河的魅力</h1>
+            <h4>诗词界面展大运河风采，古韵悠长颂千年漕运，历史长河波光粼粼，文化瑰宝熠熠生辉，尽显华夏文明之辉煌。<br>
+                点击卡片，查看诗词。
+            </h4>
+        </div>
+        <div class="overlay" onclick="openAllCards()"></div>
+        <div class="poetry-content">
+            <!-- 第一张卡片 -->
+            <div class="card" id="card1">
+                <div class="card-front">
+                    <img src="/src/public/image/泊船瓜洲.jpeg" alt="古诗词图片2">
+
+                </div>
+                <div class="card-back">
+                    <div class="card-content">
+                        <h2>泊船瓜洲</h2>
+                        <p>王安石</p>
+                        <p>
+                            京口瓜洲一水间，<br>
+                            钟山只隔数重山。<br>
+                            春风又绿江南岸，<br>
+                            明月何时照我还。
+                        </p>
+                        <button class="cultural-button" onclick="openCard('card1')">收起</button>
+                    </div>
+                </div>
             </div>
-            <div class="image-row">
-                <div class="image-box">
-                    <img src="/src/public/image/东坡肉.jpeg" alt="东坡肉">
-                    <div class="overlay1">
-                        <div class="text">东坡肉</div>
-                    </div>
-                    <div class="pic" id="pic1">
-                        <div class="pic-content">
-                            <h2>东坡肉</h2>
-                            <p>东坡肉，一道与京杭大运河沿线文化紧密相连的美食，起源于北宋时期，与文学家苏轼有关。这道菜以五花肉为主料，经过慢火炖制，肥而不腻，带有酒香，色、香、味俱佳。它不仅是一道美味佳肴，更是对苏轼与民众深厚情谊的回味，以及对传统文化的一种传承与致敬。
-                            </p>
-                            <button class="close-button">收起</button>
-                        </div>
+            <!-- 第二张卡片 -->
+            <div class="card" id="card2">
+                <div class="card-front">
+                    <img src="/src/public/image/枫桥夜泊.jpeg" alt="古诗词图片2">
+                </div>
+                <div class="card-back">
+                    <div class="card-content">
+                        <h2>枫桥夜泊</h2>
+                        <p>张继</p>
+                        <p>
+                            月落乌啼霜满天，<br>
+                            江枫渔火对愁眠。<br>
+                            姑苏城外寒山寺，<br>
+                            夜半钟声到客船。
+                        </p>
+                        <button class="cultural-button" onclick="openCard('card2')">收起</button>
                     </div>
                 </div>
-                <!-- 重复三个类似的image-box用于其他三张图片 -->
-                <div class="image-box">
-                    <img src="/src/public/image/扬州炒饭.jpeg" alt="扬州炒饭">
-                    <div class="overlay1">
-                        <div class="text">扬州炒饭</div>
-                    </div>
-                    <div class="pic" id="pic2">
-                        <div class="pic-content">
-                            <h2>扬州炒饭</h2>
-                            <p>扬州炒饭，又名扬州蛋炒饭，是江苏省扬州市的传统名菜，起源于隋朝时期。据传隋炀帝开发京杭大运河时，将其喜欢的碎金饭传入扬州。扬州炒饭选料严谨、制作精细，颗粒分明、色彩调和、配料多样，香糯可口，深受人们喜爱，现已传遍世界各地。
-                            </p>
-                            <button class="close-button">收起</button>
-                        </div>
-                    </div>
+            </div>
+            <!-- 第三张卡片 -->
+            <div class="card" id="card3">
+                <div class="card-front">
+                    <img src="/src/public/image/横江词.jpeg" alt="古诗词图片3">
                 </div>
-                <div class="image-box">
-                    <img src="/src/public/image/松鼠鳜鱼.jpeg" alt="松鼠鳜鱼">
-                    <div class="overlay1">
-                        <div class="text">松鼠鳜鱼</div>
-                    </div>
-                    <div class="pic" id="pic3">
-                        <div class="pic-content">
-                            <h2>松鼠鳜鱼</h2>
-                            <p>松鼠鳜鱼是江南地区的传统名菜，与京杭大运河有着不解之缘。这道菜因形似松鼠、色泽金黄、外酥里嫩而闻名。相传，其制作技艺沿大运河传播，成为运河沿线城市的经典美食，承载着丰富的历史文化与地域特色。
-                            </p>
-                            <button class="close-button">收起</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="image-box">
-                    <img src="/src/public/image/炙子烤肉.jpeg" alt="炙子烤肉">
-                    <div class="overlay1">
-                        <div class="text">炙子烤肉</div>
-                    </div>
-                    <div class="pic" id="pic4">
-                        <div class="pic-content">
-                            <h2>炙子烤肉</h2>
-                            <p>炙子烤肉是北京久负盛名的特色菜肴，与大运河文化紧密相连。它采用铁制圆形烤铛炙烤精选牛羊肉，肉质软嫩，风味独特。大运河北京段的什刹海附近有多家著名炙子烤肉店，如烤肉季，保留了文吃和武吃的传统吃法，是体验老北京风味的好去处。
-                            </p>
-                            <button class="close-button">收起</button>
-                        </div>
+                <div class="card-back">
+                    <div class="card-content">
+                        <h2>横江词</h2>
+                        <p>李白</p>
+                        <p>
+                            海神来过恶风回，<br>
+                            浪打天门石壁开。<br>
+                            浙江八月何如此？<br>
+                            涛似连山喷雪来！
+                        </p>
+                        <button class="cultural-button" onclick="openCard('card3')">收起</button>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- 控制按钮 -->
-        <div class="button">
-            <button onclick="showpoetry()"></button>
-            <button onclick="showmusic()"></button>
-            <button onclick="showdelicacy()"></button>
+
+    </div>
+    <!-- 音乐 -->
+    <div id="music" style="display: none;" class="music">
+
+        <div class="intro">
+            <h1>探索运河的魅力</h1>
+            <h4>悠扬旋律传千古，戏曲舞台展风华，曲调婉转叙传奇，文化瑰宝熠熠生辉，尽显华夏艺术之辉煌。</h4>
+        </div>
+        <div class="Music_intro">
+            <div class="Music_Showcase Music_Showcase1">
+                <h4>苏州评弹</h4>
+                <div class="Music_Description">
+                    苏州评弹是起源于大运河苏州段的一种传统说唱艺术，包含了评话和弹词两种形式。作为集音乐、文学和表演于一体的艺术形式，评弹以轻柔的旋律、精细的语言描述和深刻的故事情节而闻名，描绘了运河沿岸的民生百态。苏州因其文化底蕴深厚，成为评弹艺术的发源地和传播中心。
+                </div>
+            </div>
+            <div class="Music_Showcase Music_Showcase2">
+                <h4>淮扬音乐</h4>
+                <div class="Music_Description">
+                    淮扬音乐是大运河淮安、扬州段的重要民间音乐形式。淮扬地区是大运河文化的精髓地带，音乐融合了淮河流域和扬州地区的风格，表现出柔和、细腻的艺术特质。由于大运河的贯通，淮扬音乐在运河沿线传播开来，逐渐形成了独具特色的音乐风格。
+                </div>
+            </div>
+            <div class="Music_Showcase Music_Showcase3">
+                <h4>京剧</h4>
+                <div class="Music_Description">
+                    京剧作为中国最具代表性的戏曲形式，在大运河流域的发展历史悠久。大运河的开通促进了南北文化的交流，京剧在清代由北京传播至大运河沿线的各大城市。特别是在运河中段和北段，京剧通过水路运输和商业往来，成为沿线城市的重要文化娱乐形式。
+                </div>
+            </div>
+            <div class="Music_Showcase Music_Showcase4">
+                <h4>昆曲</h4>
+                <div class="Music_Description">
+                    昆曲被誉为“百戏之母”，是大运河流域最具影响力的戏曲形式之一，发源于江苏昆山，紧邻大运河。昆曲历史悠久，早在明代时期就已经广泛流行于大运河沿线的城市，并成为上层社会的重要文化娱乐形式。昆曲的唱腔婉转、曲调悠扬，音乐与诗歌相结合，艺术表现力极强，深受大众喜爱。
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- 美食 -->
+    <div id="delicacy" style="display: none;">
+        <div class="intro">
+            <h1>探索运河的韵味</h1>
+            <h4>
+                沿京杭大运河，美食如画卷缓缓展开：苏州的松鼠桂鱼跃然盘上，北京的炙子烤肉烟火气中藏历史韵味，一路品味，尽揽千年运河的味觉盛宴。</h4>
+        </div>
+        <div class="image-row">
+            <div class="image-box">
+                <img src="/src/public/image/东坡肉.jpeg" alt="东坡肉">
+                <div class="overlay1">
+                    <div class="text">东坡肉</div>
+                </div>
+                <div class="pic" id="pic1">
+                    <div class="pic-content">
+                        <h2>东坡肉</h2>
+                        <p>
+                            东坡肉，一道与京杭大运河沿线文化紧密相连的美食，起源于北宋时期，与文学家苏轼有关。这道菜以五花肉为主料，经过慢火炖制，肥而不腻，带有酒香，色、香、味俱佳。它不仅是一道美味佳肴，更是对苏轼与民众深厚情谊的回味，以及对传统文化的一种传承与致敬。
+                        </p>
+                        <button class="close-button">收起</button>
+                    </div>
+                </div>
+            </div>
+            <!-- 重复三个类似的image-box用于其他三张图片 -->
+            <div class="image-box">
+                <img src="/src/public/image/扬州炒饭.jpeg" alt="扬州炒饭">
+                <div class="overlay1">
+                    <div class="text">扬州炒饭</div>
+                </div>
+                <div class="pic" id="pic2">
+                    <div class="pic-content">
+                        <h2>扬州炒饭</h2>
+                        <p>
+                            扬州炒饭，又名扬州蛋炒饭，是江苏省扬州市的传统名菜，起源于隋朝时期。据传隋炀帝开发京杭大运河时，将其喜欢的碎金饭传入扬州。扬州炒饭选料严谨、制作精细，颗粒分明、色彩调和、配料多样，香糯可口，深受人们喜爱，现已传遍世界各地。
+                        </p>
+                        <button class="close-button">收起</button>
+                    </div>
+                </div>
+            </div>
+            <div class="image-box">
+                <img src="/src/public/image/松鼠鳜鱼.jpeg" alt="松鼠鳜鱼">
+                <div class="overlay1">
+                    <div class="text">松鼠鳜鱼</div>
+                </div>
+                <div class="pic" id="pic3">
+                    <div class="pic-content">
+                        <h2>松鼠鳜鱼</h2>
+                        <p>
+                            松鼠鳜鱼是江南地区的传统名菜，与京杭大运河有着不解之缘。这道菜因形似松鼠、色泽金黄、外酥里嫩而闻名。相传，其制作技艺沿大运河传播，成为运河沿线城市的经典美食，承载着丰富的历史文化与地域特色。
+                        </p>
+                        <button class="close-button">收起</button>
+                    </div>
+                </div>
+            </div>
+            <div class="image-box">
+                <img src="/src/public/image/炙子烤肉.jpeg" alt="炙子烤肉">
+                <div class="overlay1">
+                    <div class="text">炙子烤肉</div>
+                </div>
+                <div class="pic" id="pic4">
+                    <div class="pic-content">
+                        <h2>炙子烤肉</h2>
+                        <p>
+                            炙子烤肉是北京久负盛名的特色菜肴，与大运河文化紧密相连。它采用铁制圆形烤铛炙烤精选牛羊肉，肉质软嫩，风味独特。大运河北京段的什刹海附近有多家著名炙子烤肉店，如烤肉季，保留了文吃和武吃的传统吃法，是体验老北京风味的好去处。
+                        </p>
+                        <button class="close-button">收起</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <script src="/src/Cannal-culture/js/culture.js"></script>
+    <!-- 控制按钮 -->
+    <div class="button">
+        <button onclick="showpoetry()"></button>
+        <button onclick="showmusic()"></button>
+        <button onclick="showdelicacy()"></button>
+    </div>
+</div>
+<div class="container">
+    <nav>
+        <div><img src="/src/public/image/logo.png" style="width: 70px;height:65px;"></div>
+        <ul>
+            <li>
+                <a href="/src/Cannal-index/index.html" target="_blank">
+                    <img src="/src/public/image/首页.png">
+                </a>
+                <p style="text-align: center;">首页</p>
+                <p style="font-size: 11px;">home</p></li>
+            <li></li>
+            <li><a href="/src/Cannal-history/Canal_history.html" target="_blank">
+                <img src="/src/public/image/历史.png">
+            </a>
+                <p style="text-align: center;">历史</p>
+                <p style="font-size: 11px;">history</p></li>
+            <li></li>
+            <li><a href="/src/Cannal-culture/culture.html" target="_blank">
+                <img src="/src/public/image/文化.png">
+            </a>
+                <p style="text-align: center;">文化</p>
+                <p style="font-size: 11px;">culture</p></li>
+            <li></li>
+            <li>
+                <a href="/src/Cannal-creativity/cultural.html" target="_blank">
+                    <img src="/src/public/image/文创.png">
+                </a>
+                <p style="text-align: center;">文创</p>
+                <p style="font-size: 11px;">cultural</p></li>
+            <li></li>
+            <li><a href="/src/Cannal-game/html/长地图版-游戏初稿.html">
+                <img src="/src/public/image/娱乐.png">
+            </a>
+                <p style="text-align: center;">娱乐</p>
+                <p style="font-size: 11px;">recreation</p></li>
+            <li></li>
+        </ul>
+        <div><a href="javascript:void(0);" onclick="toggleNav()"><i id="nav-icon" class="fa fa-angle-double-up"></i></a>
+        </div>
+    </nav>
+</div>
+<script src="/src/Cannal-culture/js/culture.js"></script>
+<script src="/src/public/js/nav.js"></script>
 </body>
 
 </html>
