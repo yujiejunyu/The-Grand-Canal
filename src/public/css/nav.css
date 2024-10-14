@@ -5,6 +5,7 @@
 }
 
 .container {
+    z-index: 2;
     /*background: #bdffe7;*/
     /*width: 100%;*/
     /*height: 100vh;*/
@@ -21,7 +22,7 @@ nav {
     border: 1px solid #8B4513; /* 极细的褐色边框 */
     padding: 5px;
     box-shadow: 0 25px 20px -20px rgba(0, 0, 0, 0.4);
-    width: 100px;
+    width: 80px;
     opacity: 0.9;
     animation: slideDownNav 1.5s ease-out forwards; /* 动画名称、持续时间、缓动函数和保持结束状态 */
 }

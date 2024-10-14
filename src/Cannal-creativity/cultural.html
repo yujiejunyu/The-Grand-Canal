@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="cultural.css">
+    <link rel="stylesheet" href="/src/public/css/nav.css">
+    <title></title>
+</head>
+
+<body>
+<div class="container">
+    <nav>
+        <div><img src="/src/public/image/logo.png" style="width: 70px;height:65px;" alt=""></div>
+        <ul>
+            <li>
+                <a href="#">
+                    <img src="/src/public/image/首页.png">
+                </a>
+                <p style="text-align: center;">首页</p>
+                <p style="font-size: 11px;">home</p></li>
+            <li></li>
+            <li><a href="/src/Cannal-history/Canal_history.html" target="_blank">
+                <img src="/src/public/image/历史.png" alt="">
+            </a>
+                <p style="text-align: center;">历史</p>
+                <p style="font-size: 11px;">history</p></li>
+            <li></li>
+            <li><a href="/src/Cannal-culture/culture.html" target="_blank">
+                <img src="/src/public/image/文化.png" alt="">
+            </a>
+                <p style="text-align: center;">文化</p>
+                <p style="font-size: 11px;">culture</p></li>
+            <li></li>
+            <li>
+                <a href="/src/Cannal-creativity/cultural.html" target="_blank">
+                    <img src="/src/public/image/文创.png" alt="">
+                </a>
+                <p style="text-align: center;">文创</p>
+                <p style="font-size: 11px;">cultural</p></li>
+            <li></li>
+            <li><a href="/src/Cannal-game/html/长地图版-游戏初稿.html" target="_blank">
+                <img src="/src/public/image/娱乐.png" alt="">
+            </a>
+                <p style="text-align: center;">娱乐</p>
+                <p style="font-size: 11px;">recreation</p></li>
+            <li></li>
+        </ul>
+        <div><a href="javascript:void(0);" onclick="toggleNav()"><i id="nav-icon" class="fa fa-angle-double-up"></i></a>
+        </div>
+    </nav>
+</div>
+
+<div style="display: flex; scrollbar-width: none; overflow-y: hidden">
+    <div class="father">
+        <div class="message" id="mes1">
+            <div class="msg" data-index="0"></div>
+            <div class="msg" data-index="1"></div>
+        </div>
+        <div class="message" id="mes2">
+            <div class="msg1" data-index="2"></div>
+        </div>
+        <div class="message" id="mes3">
+            <div class="msg" data-index="3"></div>
+            <div class="msg" data-index="4"></div>
+        </div>
+        <div class="message" id="mes4">
+            <div class="msg1" data-index="5"></div>
+        </div>
+        <div class="message" id="mes5">
+            <div class="msg" data-index="6"></div>
+            <div class="msg" data-index="7"></div>
+        </div>
+        <div class="message" id="mes6">
+            <div class="msg1" data-index="8"></div>
+        </div>
+    </div>
+
+    <!--    弹窗-->
+    <div class="back_modal" id="myModel">
+        <div class="popup">
+            <img id="popupImage" src="" alt="">
+            <p id="popupContent"></p>
+            <button class="close-button">close</button>
+        </div>
+    </div>
+</div>
+
+<div class="drag-button"></div>
+<script src="/src/public/js/nav.js"></script>
+<script src="cultural.js"></script>
+</body>
+
+</html>

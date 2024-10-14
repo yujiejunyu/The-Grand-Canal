@@ -6,6 +6,8 @@ var btn = document.getElementById("openModal");
 
 const start_btn = document.getElementById('start')
 
+
+
 // 当用户点击模态框以外的地方时，关闭模态框
 window.onclick = function (event) {
     if (event.target == modal) {
