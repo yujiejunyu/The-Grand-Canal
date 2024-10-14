@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Transition with Draggable Button and Left-to-Right Fade</title>
+    <link rel="stylesheet" href="index.css">
+
+</head>
+
+<body>
+<div class="parther">
+    <div class="container">
+<!--        过去的图片-->
+        <div class="image-wrapper1">
+            <img src="images/bg.jpg">
+        </div>
+        <div class="blinking-circle building" style="margin-top: 438px;margin-left: 127px">
+                <div class="blinking-circle1">
+                    <div class="blinking-circle2"></div>
+                </div>
+                <button class="history" data-index="0">北京</button>
+            </div>
+        <div class="blinking-circle building" style="margin-top: 370px;margin-left: 262px">
+            <div class="blinking-circle1">
+                <div class="blinking-circle2"></div>
+            </div>
+            <button class="history" data-index="1">天津</button>
+        </div>
+        <div class="blinking-circle building" style="margin-top: 490px;margin-left: 402px">
+            <div class="blinking-circle1">
+                <div class="blinking-circle2"></div>
+            </div>
+            <button class="history" data-index="2">沧州</button>
+        </div>
+        <div class="blinking-circle building" style="margin-top: 430px;margin-left: 510px">
+            <div class="blinking-circle1">
+                <div class="blinking-circle2"></div>
+            </div>
+            <button class="history" data-index="3">德州</button>
+        </div>
+        <div class="blinking-circle building" style="margin-top: 400px;margin-left: 845px">
+            <div class="blinking-circle1">
+                <div class="blinking-circle2"></div>
+            </div>
+            <button class="history" data-index="4">济宁</button>
+        </div>
+        <div class="blinking-circle building" style="margin-top: 410px;margin-left: 1050px">
+            <div class="blinking-circle1">
+                <div class="blinking-circle2"></div>
+            </div>
+            <button class="history" data-index="5">徐州</button>
+        </div>
+        <div class="blinking-circle building" style="margin-top: 230px;margin-left: 1145px">
+            <div class="blinking-circle1">
+                <div class="blinking-circle2"></div>
+            </div>
+            <button class="history" data-index="6">扬州</button>
+        </div>
+        <div class="blinking-circle building" style="margin-top: 145px;margin-left: 1375px">
+            <div class="blinking-circle1">
+                <div class="blinking-circle2"></div>
+            </div>
+            <button class="history" data-index="7">苏州</button>
+        </div>
+        <div class="blinking-circle building" style="margin-top: 270px;margin-left: 1575px">
+            <div class="blinking-circle1">
+                <div class="blinking-circle2"></div>
+            </div>
+            <button class="history" data-index="8">杭州</button>
+        </div>
+        <div class="blinking-circle building" style="margin-top: 110px;margin-left: 1640px">
+            <div class="blinking-circle1">
+                <div class="blinking-circle2"></div>
+            </div>
+            <button class="history" data-index="9">宁波</button>
+        </div>
+    </div>
+<!--    弹窗-->
+    <div class="popup">
+        <img  id="popupImage" src="" alt="">
+        <p id="popupContent"></p>
+        <button class="close-button">关闭</button>
+    </div>
+
+
+    <div class="container1">
+<!--        //现在的图片-->
+        <div class="image-wrapper2">
+            <img src="images/bg1.jpg">
+        </div>
+
+    </div>
+
+</div>
+<!--//拖拽按钮-->
+<div class="bottom-move">
+    <button class="drag-button"></button>
+</div>
+
+<script src="text.js"></script>
+</body>
+
+</html>
